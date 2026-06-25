@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>金剛經解惑</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #faf8f3; --bg2: #f2ede3; --bg3: #e8e1d4;
+  --text: #1a1714; --text2: #5a5248; --text3: #9a9088;
+  --border: rgba(100,80,60,0.15); --border2: rgba(100,80,60,0.28);
+  --accent: #7b5e3a; --accent-bg: #f0e8dc;
+  --card-bg: #fffdf9;
+  --ai-bg: #f6f1e8; --ai-border: rgba(123,94,58,0.22);
+  --radius: 14px;
+  --serif: 'Noto Serif SC','Songti SC',serif;
+  --sans: 'Noto Sans SC','PingFang TC',sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1a1714; --bg2: #222018; --bg3: #2c2820;
+    --text: #f0ebe2; --text2: #b0a898; --text3: #706860;
+    --border: rgba(200,180,140,0.12); --border2: rgba(200,180,140,0.22);
+    --accent: #c9a06a; --accent-bg: #2a2218;
+    --card-bg: #201e19; --ai-bg: #23201a; --ai-border: rgba(201,160,106,0.2);
+  }
+}
+
+body { font-family: var(--sans); background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.7; }
+.container { max-width: 720px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+
+.header { text-align: center; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 0.5px solid var(--border2); }
+.header-ornament { font-size: 13px; color: var(--accent); letter-spacing: 6px; margin-bottom: 14px; opacity: 0.7; }
+.header-title { font-family: var(--serif); font-size: 36px; font-weight: 500; color: var(--text); letter-spacing: 10px; margin-bottom: 8px; }
+.header-sub { font-size: 13px; color: var(--text3); letter-spacing: 3px; }
+
+.input-label { font-size: 14px; color: var(--text2); margin-bottom: 10px; line-height: 1.8; }
+
+textarea {
+  width: 100%; min-height: 90px; resize: vertical;
+  font-family: var(--sans); font-size: 15px; line-height: 1.8;
+  color: var(--text); background: var(--card-bg);
+  border: 0.5px solid var(--border2); border-radius: var(--radius);
+  padding: 14px 16px; outline: none; transition: border-color 0.2s;
+}
+textarea:focus { border-color: var(--accent); }
+textarea::placeholder { color: var(--text3); }
+
+.btn-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; align-items: center; }
+button {
+  font-family: var(--sans); font-size: 14px; cursor: pointer;
+  border-radius: 8px; border: 0.5px solid var(--border2);
+  background: var(--card-bg); color: var(--text2);
+  padding: 8px 16px; transition: background 0.15s, color 0.15s;
+}
+button:hover { background: var(--bg2); }
+button:active { transform: scale(0.97); }
+.btn-primary {
+  font-family: var(--serif); font-size: 15px; letter-spacing: 3px;
+  background: var(--accent); color: #fff; border-color: var(--accent); padding: 9px 28px;
+}
+.btn-primary:hover { opacity: 0.88; background: var(--accent); }
+
+.chips-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 14px; }
+.chips-label { font-size: 11px; color: var(--text3); letter-spacing: 1px; }
+.chip {
+  font-size: 12px; padding: 4px 12px; border-radius: 20px;
+  border: 0.5px solid var(--border); background: var(--bg2); color: var(--text2);
+  cursor: pointer; transition: all 0.15s;
+}
+.chip:hover { background: var(--accent-bg); border-color: var(--accent); color: var(--accent); }
+
+.divider { border: none; border-top: 0.5px solid var(--border); margin: 2.5rem 0; }
+.results-label { font-size: 12px; color: var(--text3); letter-spacing: 1.5px; margin-bottom: 16px; }
+
+.card {
+  background: var(--card-bg); border: 0.5px solid var(--border);
+  border-radius: var(--radius); padding: 1.75rem; margin-bottom: 1.25rem;
+  opacity: 0; transform: translateY(8px); transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.card.visible { opacity: 1; transform: translateY(0); }
+.card-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
+.card-tag { font-size: 11px; padding: 3px 12px; border-radius: 20px; background: var(--accent-bg); color: var(--accent); }
+.card-chapter { font-size: 11px; color: var(--text3); }
+.card-passage { font-family: var(--serif); font-size: 18px; line-height: 2.2; letter-spacing: 3px; color: var(--text); margin-bottom: 20px; }
+.card-divider { border: none; border-top: 0.5px solid var(--border); margin: 0 0 16px; }
+.section-label { font-size: 10px; color: var(--text3); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 7px; }
+.section-zh { font-size: 14px; color: var(--text); line-height: 1.95; margin-bottom: 18px; }
+.section-en { font-size: 13px; color: var(--text2); line-height: 1.75; font-style: italic; }
+
+.speak-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; padding: 4px 12px; border-radius: 20px;
+  color: var(--text3); border-color: var(--border);
+  background: transparent; cursor: pointer; margin-top: 4px;
+}
+.speak-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-bg); }
+.speak-btn.playing { color: var(--accent); border-color: var(--accent); background: var(--accent-bg); }
+
+.ai-section {
+  background: var(--ai-bg); border: 0.5px solid var(--ai-border);
+  border-radius: var(--radius); padding: 1.5rem; margin-top: 0;
+  display: none;
+}
+.ai-section.show { display: block; }
+.ai-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
+.ai-title { font-size: 14px; font-weight: 500; color: var(--accent); letter-spacing: 1px; }
+.ai-badge { font-size: 10px; padding: 2px 10px; border-radius: 20px; background: var(--accent); color: #fff; letter-spacing: 1px; }
+.ai-response { font-size: 14px; color: var(--text); line-height: 2.1; white-space: pre-wrap; }
+.ai-thinking { color: var(--text3); font-style: italic; font-size: 13px; }
+.ai-action-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.42);
+  z-index: 100; display: none; align-items: center;
+  justify-content: center; padding: 1rem;
+}
+.modal-overlay.show { display: flex; }
+.modal {
+  background: var(--card-bg); border-radius: var(--radius);
+  padding: 1.75rem; max-width: 480px; width: 100%;
+  border: 0.5px solid var(--border2);
+}
+.modal-title { font-size: 16px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+.modal-sub { font-size: 13px; color: var(--text3); line-height: 1.7; margin-bottom: 18px; }
+.modal input {
+  width: 100%; font-family: var(--sans); font-size: 14px; color: var(--text);
+  background: var(--bg2); border: 0.5px solid var(--border2);
+  border-radius: 8px; padding: 10px 14px; outline: none;
+}
+.modal input:focus { border-color: var(--accent); }
+.modal-btns { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+
+.random-badge {
+  display: inline-block; font-size: 11px; padding: 2px 8px;
+  border-radius: 20px; background: var(--accent-bg);
+  color: var(--accent); margin-bottom: 12px; letter-spacing: 0.5px;
+}
+
+.empty { text-align: center; padding: 3rem 1rem; color: var(--text3); }
+.empty-icon { font-size: 30px; font-family: var(--serif); letter-spacing: 4px; opacity: 0.3; margin-bottom: 12px; }
+.empty-text { font-size: 14px; line-height: 1.9; }
+
+footer { text-align: center; margin-top: 4rem; padding-top: 2rem; border-top: 0.5px solid var(--border); font-size: 12px; color: var(--text3); letter-spacing: 1px; line-height: 2; }
+
+@media (max-width: 480px) {
+  .header-title { font-size: 26px; letter-spacing: 6px; }
+  .card-passage { font-size: 16px; letter-spacing: 2px; }
+  .card { padding: 1.25rem; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="header">
+    <p class="header-ornament">◈ &nbsp; 般若波羅蜜 &nbsp; ◈</p>
+    <h1 class="header-title">金 剛 經 解 惑</h1>
+    <p class="header-sub">Diamond Sutra · Life Guidance</p>
+  </header>
+
+  <p class="input-label">描述您正在面對的困境或煩惱，金剛經將為您指引方向。</p>
+  <textarea id="dkInput" placeholder="例：工作壓力很大，感到焦慮和迷茫…&#10;我與家人發生衝突，心中充滿委屈…&#10;失去了重要的東西，無法走出悲傷…&#10;&#10;（Ctrl/Cmd + Enter 快速求解）"></textarea>
+
+  <div class="btn-row">
+    <button class="btn-primary" onclick="seek()">求　解</button>
+    <button onclick="randomQ()">🎲 隨機困境</button>
+    <button onclick="clearAll()">清除</button>
+    <button onclick="openSettings()" style="padding:8px 12px;" title="AI 設定">⚙ AI 設定</button>
+  </div>
+
+  <div class="chips-row">
+    <span class="chips-label">常見困境：</span>
+    <button class="chip" onclick="qs('壓力焦慮 心裡不安 靜不下來')">壓力焦慮</button>
+    <button class="chip" onclick="qs('失去悲傷 難過傷心 分離離別')">失去悲傷</button>
+    <button class="chip" onclick="qs('衝突爭吵 人際誤解 委屈被針對')">人際衝突</button>
+    <button class="chip" onclick="qs('執著放不下 固執一定要非得')">執著放不下</button>
+    <button class="chip" onclick="qs('迷茫沒有方向 徬徨不知所措')">迷茫無方向</button>
+    <button class="chip" onclick="qs('失敗挫折 不公平受傷委屈')">失敗挫折</button>
+    <button class="chip" onclick="qs('空虛無意義 沒有目標提不起勁')">空虛無意義</button>
+    <button class="chip" onclick="qs('後悔遺憾 過去無法改變自責')">後悔過去</button>
+    <button class="chip" onclick="qs('慾望貪婪 沉迷無法克制')">慾望貪執</button>
+    <button class="chip" onclick="qs('虛榮物質 名利地位外表攀比')">名利虛榮</button>
+  </div>
+
+  <hr class="divider">
+
+  <div id="dkResults">
+    <div class="empty">
+      <div class="empty-icon">金　剛　般　若</div>
+      <p class="empty-text">在上方描述您的困境<br>或點選常見困境，經文將為您而現</p>
+    </div>
+  </div>
+
+  <div id="aiSection" class="ai-section">
+    <div class="ai-header">
+      <span class="ai-title">✦ AI 深度解惑</span>
+      <span class="ai-badge">Claude AI</span>
+    </div>
+    <div id="aiBody"></div>
+  </div>
+
+  <footer>
+    <p>金剛般若波羅蜜經 · 姚秦三藏法師鳩摩羅什譯</p>
+    <p style="margin-top:4px;opacity:0.6;">The Diamond Sutra · Translated by Kumārajīva, 402 CE</p>
+  </footer>
+</div>
+
+<div id="settingsModal" class="modal-overlay" onclick="if(event.target===this)closeSettings()">
+  <div class="modal">
+    <p class="modal-title">⚙ AI 解惑設定</p>
+    <p class="modal-sub">
+      輸入您的 Google AI Studio API Key，啟用 Gemini AI 個人化深度解惑。<br>
+      完全免費，無需信用卡。API Key 僅儲存於本機瀏覽器，不會傳送至任何第三方。<br>
+      <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--accent);">前往 Google AI Studio 免費取得 Key →</a>
+    </p>
+    <input type="password" id="apiKeyInput" placeholder="AIza..." autocomplete="off">
+    <div class="modal-btns">
+      <button onclick="saveKey()" style="background:var(--accent);color:#fff;border-color:var(--accent);padding:8px 20px;">儲存</button>
+      <button onclick="clearKey()" style="color:var(--text3);">清除金鑰</button>
+      <button onclick="closeSettings()" style="margin-left:auto;">關閉</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const P = [
+  {
+    text: '凡所有相，皆是虛妄。\n若見諸相非相，即見如來。',
+    ch: '第五品・如理實見分', tag: '執著 · 幻象',
+    keys: ['虛妄','執著','外表','面子','形象','攀比','認可','比較','外在','虛榮','看法','評價','表象','成就','名利','地位','別人眼光','在乎別人','求認可','在意他人'],
+    zh: '所有我們眼中看到的「相」——外在形象、他人評價、得失成就——都是虛幻不實的。許多讓我們痛苦的事，往往源於太在乎外在的「相」。當你能看透這些表象背後的本質，不再執著於外在的認可與得失，便觸及了生命真正的面目。',
+    en: 'All appearances — achievements, reputations, judgments — are illusions. Much of our suffering comes from clinging to how things look. When you see through appearances to their true nature, you touch life\'s real face.'
+  },
+  {
+    text: '應無所住，而生其心。',
+    ch: '第十品・莊嚴淨土分', tag: '焦慮 · 執念',
+    keys: ['焦慮','壓力','緊張','不安','心亂','煩躁','心神不寧','胡思亂想','想太多','執念','情緒','不平靜','無法放鬆','糾結','煩惱','工作壓力','生活壓力','心累','靜不下來','停不下來'],
+    zh: '心不應執著於任何地方，應如流水般自在流動。焦慮往往來自心「住」於某處——住於過去的遺憾，住於未來的恐懼，住於當下的不如意。當心無所執著，自然清明寧靜。這不是要你什麼都不在乎，而是學習「感受一切，而不被一切綁住」。',
+    en: 'Let the mind arise without dwelling anywhere. Anxiety is the mind getting stuck — on past regrets, future fears, present frustrations. This isn\'t about not caring — it\'s learning to feel everything without being imprisoned by it.'
+  },
+  {
+    text: '一切有為法，如夢幻泡影，\n如露亦如電，應作如是觀。',
+    ch: '第三十二品・應化非真分', tag: '失去 · 無常',
+    keys: ['失去','悲傷','離開','結束','分離','死亡','離別','消失','無常','改變','散去','難過','傷心','哀傷','悲慟','放不開','心痛','失落','分手','失業','失戀','親人','物是人非','逝去'],
+    zh: '世間一切有形有為的事物，如同夢境、幻象、水中氣泡，如晨露般短暫，如閃電般轉瞬即逝。你現在失去的，本是幻化；你緊握的，終將散去。這不是說你不應悲傷，而是悲傷之後，你能看見：一切本來如此——珍貴，且短暫。接受無常，是對生命最深的理解。',
+    en: 'All formed phenomena are like dreams, illusions, bubbles, shadows — like dew and lightning, fleeting. What we lose was always transient. Accepting impermanence is the deepest understanding of life.'
+  },
+  {
+    text: '過去心不可得，\n現在心不可得，\n未來心不可得。',
+    ch: '第十八品・一體同觀分', tag: '後悔 · 擔憂',
+    keys: ['後悔','遺憾','過去','以前','那時候','如果','要是','假如','擔心','擔憂','害怕','恐懼','未來','將來','不確定','回不去','晚了','來不及','不能改變','自責','內疚','追悔','憂慮'],
+    zh: '過去的心已不可執取，它已成過去；現在的心剎那生滅，無法抓住；未來的心尚未降臨，你無從把握。三心皆不可得，這是一個解脫的邀請：你不必背負過去，不必恐懼未來，只需活在此刻，如實觀照。後悔是對過去的執著，憂慮是對未來的執著——放下三心，此刻就是你全部的生命。',
+    en: 'The past mind cannot be grasped — it\'s gone. The present mind cannot be grasped. The future mind cannot be grasped — it hasn\'t arrived. Only this moment is real, and it is enough.'
+  },
+  {
+    text: '若菩薩有我相、人相、眾生相、壽者相，\n即非菩薩。',
+    ch: '第三品・大乘正宗分', tag: '衝突 · 自我',
+    keys: ['衝突','爭吵','誤解','被誤解','人際','關係','矛盾','對立','他人','同事','家人','朋友','伴侶','傷害','指責','批評','被批評','對錯','委屈','自我','自尊','驕傲','放不下面子','難堪','被針對','吵架'],
+    zh: '菩薩若有「我」與「他人」的對立分別，就已偏離了覺悟的道路。人際衝突的根源，往往是「我相」——過分執著於「我」的立場、「我」的感受、「我」的正確。試著放下「我對你錯」的框架，看見對方也有他的苦與因緣。無我，不是消滅自己，而是不讓「我」成為痛苦的囚籠。',
+    en: 'Most conflicts arise from clinging to self — my position, my feelings, my rightness. When we loosen the grip of self-concept, we begin to see others\' suffering. Non-self is freedom from the ego\'s prison.'
+  },
+  {
+    text: '如來說法，如筏喻者，\n法尚應捨，何況非法。',
+    ch: '第六品・正信希有分', tag: '執著 · 固執',
+    keys: ['執著','放不下','固執','堅持','執念','非得','必須','一定要','不肯放手','控制','強求','想法','觀念','信念','計劃','期望','鑽牛角尖','一條路走到底','轉不過彎','難以放手'],
+    zh: '佛陀的教法如同渡河之筏，渡河之後，你不會把船背在肩上繼續走路。連正確的方法、良善的信念都應適時放下，何況是那些束縛你的執念？你緊握的「非這樣不可」，也許正是讓你動彈不得的重量。放下不是放棄，而是讓雙手空出來，接納新的可能。',
+    en: 'The Buddha\'s teachings are like a raft — once you\'ve crossed the river, you don\'t carry it on your back. The fixed ideas you cling to may be the very weight holding you down. Letting go opens your hands to new possibilities.'
+  },
+  {
+    text: '若以色見我，以音聲求我，\n是人行邪道，不能見如來。',
+    ch: '第二十六品・法身非相分', tag: '虛榮 · 物質',
+    keys: ['虛榮','表面','外表','物質','金錢','財富','地位','名聲','名利','成功','形象','炫耀','攀比','名牌','社會地位','外貌','顏值','功利','現實','物慾','財富焦慮','追求名利'],
+    zh: '若試圖透過外在形色來尋找真理，或以成就和地位來衡量生命的價值，這條路已然走偏。物質的豐盛、外在的成功，這些都不是生命的核心。當我們把全部心力投注在外在形相，往往錯失了內在真實的自己。真正的滿足，來自內在的清明，而非外在的擁有。',
+    en: 'If you seek truth through form — achievements, status, possessions — you\'ve taken the wrong path. Real fulfillment comes from inner clarity, not outer possession.'
+  },
+  {
+    text: '無有定法名阿耨多羅三藐三菩提，\n亦無有定法如來可說。',
+    ch: '第七品・無得無說分', tag: '迷茫 · 無方向',
+    keys: ['迷茫','迷失','方向','不知道','怎麼辦','選擇','決定','選擇困難','茫然','徬徨','無助','困惑','不確定','答案','人生意義','找不到','沒有目標','無所適從','不知所措','兩難','取捨','迷路'],
+    zh: '沒有一個固定的法叫做「最高覺悟」，也沒有唯一的說法是絕對真理。迷茫，往往因為我們在尋找一個「正確答案」——正確的人生路、正確的選擇。但生命的奧妙正在於：沒有唯一的正確。你的迷茫，或許不是迷失，而是一個更大空間的開展，讓你能在不確定中，發現屬於自己的道路。',
+    en: 'There is no fixed doctrine called supreme awakening. When lost, we\'re often searching for "the right answer." Your confusion may not be lostness — it may be an opening to discover your own authentic path.'
+  },
+  {
+    text: '以無我、無人、無眾生、無壽者，\n修一切善法，即得阿耨多羅三藐三菩提。',
+    ch: '第十七品・究竟無我分', tag: '空虛 · 意義',
+    keys: ['空虛','意義','人生意義','目的','價值','無聊','沒有意義','活著為什麼','意義感','存在','內心空洞','沒動力','失去熱情','找不到意義','人生目標','目標','動力','麻木','什麼都無所謂','提不起勁'],
+    zh: '不執著於「我」在做好事，不執著於「別人」的感謝，不執著於任何結果——在這樣無我的狀態中行一切善，才是最高的覺悟。空虛往往來自問「我能得到什麼」。當你轉向「我能給予什麼」，不計回報地投入一件有意義的事，那個空洞往往會被真實的喜悅填滿。意義不是找來的，是活出來的。',
+    en: 'Practice all good deeds without clinging to self, praise, or outcome. Emptiness often comes from asking "what do I get?" Shift to "what can I give?" — meaning isn\'t found; it\'s lived into.'
+  },
+  {
+    text: '忍辱波羅蜜，\n如來說非忍辱波羅蜜，\n是名忍辱波羅蜜。',
+    ch: '第十四品・離相寂滅分', tag: '挫折 · 忍耐',
+    keys: ['挫折','失敗','不公平','受傷','委屈','忍耐','忍受','痛苦','受委屈','被傷害','憤怒','怒氣','憤恨','不平','不甘心','受氣','吃虧','被欺負','打擊','困難','艱難','逆境','磨難','撐不下去','忍不了'],
+    zh: '真正的忍辱，不是壓抑憤怒、強迫自己忍氣吞聲，而是到達一種境界：你清楚看見所發生的一切，但不再被它主宰。「忍辱」一旦成為執念，就不再是忍辱了。真正的包容來自無我——當你不再有一個需要被保護的脆弱「我」，傷害便失去了力量。這不是軟弱，而是超越傷害的自由。',
+    en: 'True patience is not suppressing anger — it\'s reaching a state where you see clearly what happens but are no longer controlled by it. Real forbearance comes from non-self: when there\'s no fragile "me" to protect, harm loses its power.'
+  },
+  {
+    text: '不應住色生心，不應住聲香味觸法生心，\n應無所住而生其心。',
+    ch: '第十品・莊嚴淨土分', tag: '慾望 · 貪執',
+    keys: ['慾望','貪婪','貪心','想要','無法滿足','不夠','還不夠','一直想要','沉迷','上癮','無法克制','控制不了','誘惑','物慾','渴望','欲罷不能','貪執','放縱','慾望驅使'],
+    zh: '不應被視覺所見迷惑而生出執著，不應被聲音、香氣、味道、觸感所束縛——心應當自由流動，無所執取。慾望本身並不是問題，問題在於心「住」於慾望之中，被它牢牢抓住。當你能觀察慾望升起，而不被它帶走，這一刻的清醒，就是覺悟的開始。',
+    en: 'Don\'t let the mind get stuck in what it sees, hears, smells, tastes, or touches. Desire itself isn\'t the problem; enslavement to desire is. Observe a craving arising without being swept away — that is the beginning of freedom.'
+  },
+  {
+    text: '菩薩應離一切相，\n發阿耨多羅三藐三菩提心。',
+    ch: '第十四品・離相寂滅分', tag: '新開始 · 勇氣',
+    keys: ['新開始','重新開始','改變','轉變','勇氣','踏出第一步','開始','嘗試','害怕改變','怕失敗','畏懼','裹足不前','不敢','沒有勇氣','放棄舊的','邁向新的','突破','超越','蛻變','成長','重生','走出舒適圈','想改變'],
+    zh: '菩薩應當離開一切舊有的執著和框架，發起最高覺悟之心。每一個真正的新開始，都需要放下某些舊的自我——舊的身份、舊的執念、舊的恐懼。不是帶著舊的包袱走向新的地方，而是輕盈地、清醒地，帶著一顆開放的心，走向未知。你已準備好了，比你知道的更多。',
+    en: 'Depart from all fixed appearances and arise with the mind of awakening. Every true new beginning requires releasing parts of the old self. Move forward lightly and clearly, with an open heart toward the unknown. You are more ready than you know.'
+  }
+];
+
+const RANDOM_QS = [
+  '我在工作上付出很多，卻得不到應有的認可，心裡非常不平衡，不知道該繼續努力還是放棄。',
+  '最近和伴侶的關係越來越緊張，常常為小事爭吵，感覺越來越遠，不知道該怎麼辦。',
+  '我失去了一份很重要的工作，對未來感到茫然和恐懼，不知道下一步該往哪裡走。',
+  '父母對我的人生選擇不支持，夾在自己的夢想和家人期待之間，左右為難，非常痛苦。',
+  '一個很重要的朋友背叛了我的信任，感到憤怒又傷心，不知道能不能再相信別人。',
+  '我已經努力很久了，但事情一直沒有起色，開始深深懷疑自己的能力和價值。',
+  '最近對健康有很多擔憂，各種負面念頭在腦海中不停轉，晚上難以入睡，非常焦慮。',
+  '感覺人生越來越空虛，做什麼事都提不起勁，不知道自己到底真正想要什麼。',
+  '我非常在乎別人對我的看法，總是活在他人的評價中，無法做真實的自己，感覺很累。',
+  '一段重要的感情走到終點，那些回憶和遺憾不斷在心中徘徊，無法走出來。',
+  '我對現狀非常不滿意，卻又非常害怕改變，就這樣陷在進退兩難的困境裡很久了。',
+  '工作、家庭、個人夢想的壓力同時湧來，感覺快要撐不住了，不知道該如何是好。',
+  '我後悔多年前做的一個重要決定，這個遺憾一直影響著我看待自己和生活的方式。',
+  '人生走到中年，突然非常迷惘，不清楚自己的人生意義和存在的價值究竟是什麼。',
+  '我一直在追求更多、更好，但得到之後卻發現還是不快樂，這種慾望讓我感到疲憊不堪。',
+  '我和父母的關係很複雜，有愛也有深深的傷，這種矛盾讓我不知道如何面對他們。',
+  '在職場上長期受到不公平的對待，壓抑著憤怒，卻又不知道如何正確地回應和保護自己。',
+  '我非常害怕失去現在擁有的一切，這種恐懼讓我無法真正放鬆，也無法享受當下。',
+  '我覺得自己一直在為別人活著，從來沒有真正為自己做過選擇，感到非常迷失和空洞。',
+  '面對一個重大的人生抉擇，兩條路各有利弊，不知道如何才能做出不後悔的決定。'
+];
+
+let currentPassages = [];
+let currentUserInput = '';
+let speakingBtn = null;
+
+function score(input, p) {
+  let s = 0;
+  p.keys.forEach(k => { if (input.includes(k)) s++; });
+  return s;
+}
+
+function seek() {
+  const v = document.getElementById('dkInput').value.trim();
+  if (!v) { showErr('請先描述您的困境，再按求解。'); return; }
+  currentUserInput = v;
+  const scored = P.map(p => ({ p, s: score(v, p) })).sort((a, b) => b.s - a.s);
+  currentPassages = scored[0].s === 0
+    ? scored.slice(0, 2).map(x => x.p)
+    : scored.filter(x => x.s > 0).slice(0, 3).map(x => x.p);
+  render(currentPassages, '為您找到 ' + currentPassages.length + ' 段相關經文');
+  setupAI();
+  stopSpeak();
+}
+
+function randomQ() {
+  const q = RANDOM_QS[Math.floor(Math.random() * RANDOM_QS.length)];
+  document.getElementById('dkInput').value = q;
+  seek();
+}
+
+function qs(q) {
+  document.getElementById('dkInput').value = q;
+  seek();
+}
+
+function clearAll() {
+  document.getElementById('dkInput').value = '';
+  currentPassages = [];
+  currentUserInput = '';
+  stopSpeak();
+  document.getElementById('dkResults').innerHTML = `<div class="empty"><div class="empty-icon">金　剛　般　若</div><p class="empty-text">在上方描述您的困境<br>或點選常見困境，經文將為您而現</p></div>`;
+  document.getElementById('aiSection').classList.remove('show');
+}
+
+function showErr(msg) {
+  document.getElementById('dkResults').innerHTML = `<p style="text-align:center;color:var(--text3);font-size:14px;padding:2rem 0;">${msg}</p>`;
+  document.getElementById('aiSection').classList.remove('show');
+}
+
+function render(passages, label) {
+  const el = document.getElementById('dkResults');
+  el.innerHTML = `<p class="results-label">${label}</p>`;
+  passages.forEach((p, i) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    const lines = p.text.split('\n').map(l => `<span style="display:block;">${l}</span>`).join('');
+    const speakText = `${p.ch}。${p.text.replace(/\n/g, '，')}。解析：${p.zh}`;
+    card.innerHTML = `
+      <div class="card-meta">
+        <span class="card-tag">${p.tag}</span>
+        <span class="card-chapter">${p.ch}</span>
+      </div>
+      <div class="card-passage">${lines}</div>
+      <hr class="card-divider">
+      <p class="section-label">中文解析</p>
+      <p class="section-zh">${p.zh}</p>
+      <p class="section-label">English Insight</p>
+      <p class="section-en">${p.en}</p>
+      <button class="speak-btn" id="spk${i}" onclick="toggleSpeak(this, \`${speakText.replace(/`/g, "'")}\`, 'spk${i}')">
+        ▶ 朗讀經文
+      </button>`;
+    el.appendChild(card);
+    setTimeout(() => card.classList.add('visible'), i * 160 + 50);
+  });
+}
+
+function setupAI() {
+  const sec = document.getElementById('aiSection');
+  const body = document.getElementById('aiBody');
+  const key = localStorage.getItem('dk_api_key');
+  sec.classList.add('show');
+  if (!key) {
+    body.innerHTML = `<p style="font-size:13px;color:var(--text3);line-height:1.9;">
+      如需 Gemini AI 個人化深度解惑，請先
+      <a onclick="openSettings()" style="color:var(--accent);cursor:pointer;text-decoration:underline;">設定 Google AI Studio API Key（免費）</a>，
+      AI 將根據您的具體情況與相關經文，提供更深入的個人化引導。
+    </p>`;
+  } else {
+    body.innerHTML = `<div class="ai-action-row">
+      <button onclick="runAI()" style="background:var(--accent);color:#fff;border-color:var(--accent);font-size:14px;padding:8px 22px;letter-spacing:1px;">✦ 請 AI 解惑</button>
+      <span style="font-size:12px;color:var(--text3);">根據您的困境與相關經文提供個人化引導</span>
+    </div>`;
+  }
+}
+
+async function runAI() {
+  const key = localStorage.getItem('dk_api_key');
+  if (!key || !currentUserInput || !currentPassages.length) return;
+
+  const body = document.getElementById('aiBody');
+  body.innerHTML = '<p class="ai-thinking">✦ 正在為您深度解惑，請稍候…</p>';
+  stopSpeak();
+
+  const passagesText = currentPassages.map(p =>
+    `【${p.ch}】「${p.text.replace(/\n/g, '')}」\n解析：${p.zh}`
+  ).join('\n\n');
+
+  const prompt = `你是一位深諳金剛經智慧、溫暖而有洞察力的善知識。
+
+用戶分享了以下的生活困境：
+「${currentUserInput}」
+
+我們已從金剛經中找到以下相關經文與解析：
+${passagesText}
+
+請以金剛經的智慧，為此人提供一段溫暖、深刻、個人化的解惑與引導。
+要求：
+- 直接回應此人的具體困境，不要泛泛而談
+- 將金剛經的智慧自然融入，讓人感受到佛法的溫度與力量
+- 語氣如智慧老友娓娓道來，溫暖不說教
+- 結尾給一個具體的小修行建議或今日觀想
+- 繁體中文，約280-350字`;
+
+  const MODELS = [
+    'gemini-1.5-flash-latest',
+    'gemini-1.5-flash',
+    'gemini-1.0-pro',
+    'gemini-pro'
+  ];
+
+  let lastErr = '';
+  for (const model of MODELS) {
+    try {
+      const resp = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
+        {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: { maxOutputTokens: 700, temperature: 0.85 }
+          })
+        }
+      );
+
+      const data = await resp.json();
+
+      if (!resp.ok) {
+        lastErr = data.error?.message || resp.statusText;
+        if (lastErr.includes('not found') || lastErr.includes('not supported')) continue;
+        body.innerHTML = `<p style="color:var(--text3);font-size:13px;">API 錯誤：${lastErr}</p>`;
+        return;
+      }
+
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      if (!text) { lastErr = '無回應內容'; continue; }
+
+      body.innerHTML = `
+        <p class="ai-response" id="aiText"></p>
+        <div style="margin-top:14px;">
+          <button class="speak-btn" id="spkAI" onclick="toggleSpeak(this, document.getElementById('aiText').textContent, 'spkAI')">
+            ▶ 朗讀解惑
+          </button>
+        </div>`;
+      document.getElementById('aiText').textContent = text;
+      return;
+
+    } catch (e) {
+      lastErr = e.message;
+    }
+  }
+
+  body.innerHTML = `<p style="color:var(--text3);font-size:13px;">所有模型均無法使用，請確認 API Key 是否正確，或前往 <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--accent);">Google AI Studio</a> 重新取得。錯誤：${lastErr}</p>`;
+}
+
+/* ── Text-to-Speech ── */
+let voices = [];
+function loadVoices() {
+  voices = speechSynthesis.getVoices();
+}
+speechSynthesis.onvoiceschanged = loadVoices;
+loadVoices();
+
+function getMaleVoice() {
+  const all = voices.length ? voices : speechSynthesis.getVoices();
+  const zh = all.filter(v => v.lang.startsWith('zh') || v.lang.startsWith('cmn'));
+  if (zh.length) {
+    const male = zh.find(v =>
+      v.name.toLowerCase().includes('male') ||
+      v.name.includes('Ming') || v.name.includes('Kai') ||
+      v.name.includes('Daniel') || v.name.includes('Yu') ||
+      (!v.name.toLowerCase().includes('female') && !v.name.includes('Mei') && !v.name.includes('Ting'))
+    );
+    return male || zh[0];
+  }
+  return all.find(v => v.lang.startsWith('zh')) || null;
+}
+
+function stopSpeak() {
+  speechSynthesis.cancel();
+  if (speakingBtn) {
+    speakingBtn.textContent = '▶ ' + speakingBtn.dataset.label;
+    speakingBtn.classList.remove('playing');
+    speakingBtn = null;
+  }
+}
+
+function toggleSpeak(btn, text, id) {
+  if (speakingBtn && speakingBtn.id === id) {
+    stopSpeak();
+    return;
+  }
+  stopSpeak();
+  if (!btn.dataset.label) btn.dataset.label = btn.textContent.replace('▶ ', '').replace('⏸ ', '');
+  btn.textContent = '⏸ 暫停朗讀';
+  btn.classList.add('playing');
+  speakingBtn = btn;
+
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'zh-TW';
+  utter.rate = 0.78;
+  utter.pitch = 0.75;
+  utter.volume = 1;
+  const v = getMaleVoice();
+  if (v) utter.voice = v;
+
+  utter.onend = () => {
+    btn.textContent = '▶ ' + btn.dataset.label;
+    btn.classList.remove('playing');
+    if (speakingBtn === btn) speakingBtn = null;
+  };
+  utter.onerror = () => {
+    btn.textContent = '▶ ' + btn.dataset.label;
+    btn.classList.remove('playing');
+    if (speakingBtn === btn) speakingBtn = null;
+  };
+
+  speechSynthesis.speak(utter);
+}
+
+/* ── Settings ── */
+function openSettings() {
+  const k = localStorage.getItem('dk_api_key');
+  if (k) document.getElementById('apiKeyInput').value = k;
+  document.getElementById('settingsModal').classList.add('show');
+}
+function closeSettings() {
+  document.getElementById('settingsModal').classList.remove('show');
+}
+function saveKey() {
+  const k = document.getElementById('apiKeyInput').value.trim();
+  if (k) {
+    localStorage.setItem('dk_api_key', k);
+    closeSettings();
+    if (currentPassages.length) setupAI();
+  } else {
+    alert('請輸入有效的 API Key。');
+  }
+}
+function clearKey() {
+  localStorage.removeItem('dk_api_key');
+  document.getElementById('apiKeyInput').value = '';
+  if (currentPassages.length) setupAI();
+  closeSettings();
+}
+
+document.getElementById('dkInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) seek();
+});
+</script>
+</body>
+</html>
