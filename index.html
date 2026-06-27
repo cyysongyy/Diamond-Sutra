@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>經典解鎖人生</title>
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="經書智慧">
+<meta name="theme-color" content="#7b5e3a">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #faf8f3; --bg2: #f2ede3; --bg3: #e8e1d4;
+  --text: #1a1714; --text2: #5a5248; --text3: #9a9088;
+  --border: rgba(100,80,60,0.15); --border2: rgba(100,80,60,0.28);
+  --accent: #7b5e3a; --accent-bg: #f0e8dc; --card-bg: #fffdf9;
+  --ai-bg: #f6f1e8; --ai-border: rgba(123,94,58,0.22); --radius: 14px;
+  --serif: 'Noto Serif SC','Songti SC',serif;
+  --sans: 'Noto Sans SC','PingFang TC',sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1a1714; --bg2: #222018; --bg3: #2c2820;
+    --text: #f0ebe2; --text2: #b0a898; --text3: #706860;
+    --border: rgba(200,180,140,0.12); --border2: rgba(200,180,140,0.22);
+    --accent: #c9a06a; --accent-bg: #2a2218;
+    --card-bg: #201e19; --ai-bg: #23201a; --ai-border: rgba(201,160,106,0.2);
+  }
+}
+body { font-family: var(--sans); background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.7; }
+.container { max-width: 720px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+
+/* ── 首頁 ── */
+#homeView { display: block; }
+#sutраView { display: none; }
+.platform-ornament { font-size: 13px; color: var(--accent); letter-spacing: 6px; margin-bottom: 14px; opacity: 0.7; text-align: center; }
+.platform-title { font-family: var(--serif); font-size: 34px; font-weight: 500; color: var(--text); letter-spacing: 10px; margin-bottom: 8px; text-align: center; }
+.platform-sub { font-size: 13px; color: var(--text3); letter-spacing: 3px; text-align: center; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 0.5px solid var(--border2); }
+.sutra-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+@media (max-width: 500px) { .sutra-grid { grid-template-columns: 1fr; } }
+.sutra-card {
+  background: var(--card-bg); border: 0.5px solid var(--border2);
+  border-radius: var(--radius); padding: 2rem 1.5rem;
+  cursor: pointer; transition: all 0.2s; text-align: center;
+  position: relative; overflow: hidden;
+}
+.sutra-card:hover { border-color: var(--accent); background: var(--accent-bg); transform: translateY(-2px); }
+.sutra-card-ornament { font-size: 11px; color: var(--accent); letter-spacing: 4px; opacity: 0.6; margin-bottom: 10px; }
+.sutra-card-title { font-family: var(--serif); font-size: 26px; letter-spacing: 8px; color: var(--text); margin-bottom: 10px; }
+.sutra-card-sub { font-size: 12px; color: var(--text3); letter-spacing: 1px; line-height: 1.7; }
+.sutra-card-enter { margin-top: 16px; font-size: 12px; color: var(--accent); letter-spacing: 2px; }
+.home-intro { text-align: center; margin-top: 3rem; font-size: 13px; color: var(--text3); line-height: 2.2; letter-spacing: 1px; }
+
+/* ── 經書介面 ── */
+.header { text-align: center; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 0.5px solid var(--border2); }
+.header-ornament { font-size: 13px; color: var(--accent); letter-spacing: 6px; margin-bottom: 14px; opacity: 0.7; }
+.header-title { font-family: var(--serif); font-size: 36px; font-weight: 500; color: var(--text); letter-spacing: 10px; margin-bottom: 8px; }
+.header-sub { font-size: 13px; color: var(--text3); letter-spacing: 3px; }
+.back-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--text3); letter-spacing: 1px;
+  cursor: pointer; padding: 6px 14px; border-radius: 20px;
+  border: 0.5px solid var(--border); background: transparent;
+  margin-bottom: 1.5rem; transition: all 0.15s;
+}
+.back-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-bg); }
+.input-label { font-size: 14px; color: var(--text2); margin-bottom: 10px; line-height: 1.8; }
+textarea {
+  width: 100%; min-height: 90px; resize: vertical;
+  font-family: var(--sans); font-size: 15px; line-height: 1.8;
+  color: var(--text); background: var(--card-bg);
+  border: 0.5px solid var(--border2); border-radius: var(--radius);
+  padding: 14px 16px; outline: none; transition: border-color 0.2s;
+}
+textarea:focus { border-color: var(--accent); }
+textarea::placeholder { color: var(--text3); }
+.btn-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; align-items: center; }
+button {
+  font-family: var(--sans); font-size: 14px; cursor: pointer;
+  border-radius: 8px; border: 0.5px solid var(--border2);
+  background: var(--card-bg); color: var(--text2);
+  padding: 8px 16px; transition: background 0.15s, color 0.15s;
+}
+button:hover { background: var(--bg2); }
+button:active { transform: scale(0.97); }
+.btn-primary {
+  font-family: var(--serif); font-size: 15px; letter-spacing: 3px;
+  background: var(--accent); color: #fff; border-color: var(--accent); padding: 9px 28px;
+}
+.btn-primary:hover { opacity: 0.88; background: var(--accent); }
+.chips-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 14px; }
+.chips-label { font-size: 11px; color: var(--text3); letter-spacing: 1px; }
+.chip {
+  font-size: 12px; padding: 4px 12px; border-radius: 20px;
+  border: 0.5px solid var(--border); background: var(--bg2); color: var(--text2);
+  cursor: pointer; transition: all 0.15s;
+}
+.chip:hover { background: var(--accent-bg); border-color: var(--accent); color: var(--accent); }
+.divider { border: none; border-top: 0.5px solid var(--border); margin: 2.5rem 0; }
+.results-label { font-size: 12px; color: var(--text3); letter-spacing: 1.5px; margin-bottom: 16px; }
+.card {
+  background: var(--card-bg); border: 0.5px solid var(--border);
+  border-radius: var(--radius); padding: 1.75rem; margin-bottom: 1.25rem;
+  opacity: 0; transform: translateY(8px); transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.card.visible { opacity: 1; transform: translateY(0); }
+.card-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
+.card-tag { font-size: 11px; padding: 3px 12px; border-radius: 20px; background: var(--accent-bg); color: var(--accent); }
+.card-chapter { font-size: 11px; color: var(--text3); }
+.card-passage { font-family: var(--serif); font-size: 18px; line-height: 2.2; letter-spacing: 3px; color: var(--text); margin-bottom: 20px; }
+.card-divider { border: none; border-top: 0.5px solid var(--border); margin: 0 0 16px; }
+.section-label { font-size: 10px; color: var(--text3); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 7px; }
+.section-zh { font-size: 14px; color: var(--text); line-height: 1.95; margin-bottom: 18px; }
+.section-en { font-size: 13px; color: var(--text2); line-height: 1.75; font-style: italic; }
+.speak-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; padding: 4px 12px; border-radius: 20px;
+  color: var(--text3); border-color: var(--border);
+  background: transparent; cursor: pointer; margin-top: 4px;
+}
+.speak-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-bg); }
+.speak-btn.playing { color: var(--accent); border-color: var(--accent); background: var(--accent-bg); }
+.ai-section {
+  background: var(--ai-bg); border: 0.5px solid var(--ai-border);
+  border-radius: var(--radius); padding: 1.5rem; margin-top: 0; display: none;
+}
+.ai-section.show { display: block; }
+.ai-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
+.ai-title { font-size: 14px; font-weight: 500; color: var(--accent); letter-spacing: 1px; }
+.ai-badge { font-size: 10px; padding: 2px 10px; border-radius: 20px; background: var(--accent); color: #fff; letter-spacing: 1px; }
+.ai-response { font-size: 14px; color: var(--text); line-height: 2.1; white-space: pre-wrap; }
+.ai-thinking { color: var(--text3); font-style: italic; font-size: 13px; }
+.ai-action-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.ai-error { font-size: 13px; color: var(--text3); line-height: 1.9; background: var(--bg2); border-radius: 8px; padding: 12px 14px; }
+.ai-error a { color: var(--accent); cursor: pointer; }
+.retry-btn { margin-top: 10px; font-size: 13px; padding: 6px 16px; background: var(--accent); color: #fff; border-color: var(--accent); border-radius: 8px; cursor: pointer; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.42); z-index: 100; display: none; align-items: center; justify-content: center; padding: 1rem; }
+.modal-overlay.show { display: flex; }
+.modal { background: var(--card-bg); border-radius: var(--radius); padding: 1.75rem; max-width: 480px; width: 100%; border: 0.5px solid var(--border2); }
+.modal-title { font-size: 16px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+.modal-sub { font-size: 13px; color: var(--text3); line-height: 1.7; margin-bottom: 18px; }
+.modal input { width: 100%; font-family: var(--sans); font-size: 14px; color: var(--text); background: var(--bg2); border: 0.5px solid var(--border2); border-radius: 8px; padding: 10px 14px; outline: none; }
+.modal input:focus { border-color: var(--accent); }
+.modal-btns { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+.empty { text-align: center; padding: 3rem 1rem; color: var(--text3); }
+.empty-icon { font-size: 30px; font-family: var(--serif); letter-spacing: 4px; opacity: 0.3; margin-bottom: 12px; }
+.empty-text { font-size: 14px; line-height: 1.9; }
+footer { text-align: center; margin-top: 4rem; padding-top: 2rem; border-top: 0.5px solid var(--border); font-size: 12px; color: var(--text3); letter-spacing: 1px; line-height: 2; }
+.recite-bar { background: var(--card-bg); border: 0.5px solid var(--border2); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 2rem; display: none; }
+.recite-bar.show { display: block; }
+.recite-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+.recite-title { font-family: var(--serif); font-size: 15px; color: var(--accent); letter-spacing: 2px; }
+.recite-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+.recite-btn { font-size: 13px; padding: 6px 14px; border-radius: 20px; border: 0.5px solid var(--accent); background: var(--accent); color: #fff; cursor: pointer; transition: all .15s; font-family: var(--sans); }
+.recite-btn.secondary { background: transparent; color: var(--text2); border-color: var(--border2); }
+.recite-btn.secondary:hover { background: var(--bg2); }
+.recite-btn:hover { opacity: .85; }
+.recite-progress-track { width: 100%; height: 4px; background: var(--bg3); border-radius: 2px; overflow: hidden; margin-bottom: 5px; }
+.recite-progress-fill { height: 100%; background: var(--accent); border-radius: 2px; width: 0%; transition: width .3s; }
+.recite-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--text3); }
+.recite-current { font-family: var(--serif); font-size: 14px; color: var(--text2); line-height: 2.2; letter-spacing: 2px; margin-top: 12px; border-left: 2px solid var(--accent); padding-left: 12px; min-height: 30px; }
+.recite-speed { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--text3); margin-top: 10px; }
+.recite-speed input[type=range] { flex: 1; accent-color: var(--accent); cursor: pointer; }
+@media (max-width: 480px) {
+  .platform-title { font-size: 24px; letter-spacing: 6px; }
+  .header-title { font-size: 26px; letter-spacing: 6px; }
+  .card-passage { font-size: 16px; letter-spacing: 2px; }
+  .card { padding: 1.25rem; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ══════════ 首頁 ══════════ -->
+  <div id="homeView">
+    <div style="padding-top:1rem;">
+      <p class="platform-ornament">◈ &nbsp; 般若法藏 &nbsp; ◈</p>
+      <h1 class="platform-title">經 典 解 鎖 人 生</h1>
+      <p class="platform-sub">Buddhist Wisdom · Life Guidance</p>
+    </div>
+    <div class="sutra-grid">
+      <div class="sutra-card" onclick="enterSutra('diamond')">
+        <p class="sutra-card-ornament">◈ 大般若部 ◈</p>
+        <div class="sutra-card-title">金 剛 經</div>
+        <p class="sutra-card-sub">Diamond Sutra<br>姚秦・鳩摩羅什譯<br>402 CE</p>
+        <p class="sutra-card-enter">進入解惑 →</p>
+      </div>
+      <div class="sutra-card" onclick="enterSutra('heart')">
+        <p class="sutra-card-ornament">◈ 大般若部 ◈</p>
+        <div class="sutra-card-title">心 經</div>
+        <p class="sutra-card-sub">Heart Sutra<br>唐・玄奘法師譯<br>649 CE</p>
+        <p class="sutra-card-enter">進入解惑 →</p>
+      </div>
+    </div>
+    <p class="home-intro">選擇一部經書，描述您的困境<br>讓千年智慧為您指引方向</p>
+    <div style="text-align:center;margin-top:1.5rem;">
+      <button onclick="document.getElementById('infoModal').classList.add('show')" style="font-size:12px;padding:6px 20px;border-radius:20px;border:0.5px solid var(--border2);background:transparent;color:var(--text3);cursor:pointer;letter-spacing:2px;">說　明</button>
+    </div>
+    <div style="margin-top:3rem;padding-top:2rem;border-top:0.5px solid var(--border);font-size:11px;color:var(--text3);line-height:2;text-align:center;letter-spacing:0.5px;">
+      <p style="margin-bottom:4px;font-size:12px;color:var(--text2);letter-spacing:1px;">免　責　聲　明</p>
+      本平台所提供之經文解析與 AI 引導，僅供個人心靈參考與省思之用，<br>
+      不構成任何心理諮商、醫療診斷或宗教指導之替代。<br>
+      若您正面臨嚴重心理困擾、情緒危機或健康問題，<br>
+      請尋求專業心理諮商師、醫師或相關機構協助。<br>
+      <span style="opacity:0.6;">AI 回應內容由 ChatGPT 生成，本平台不對其準確性或適切性負責。</span>
+    </div>
+  </div>
+
+  <!-- ══════════ 經書介面 ══════════ -->
+  <div id="sutraView" style="display:none;">
+    <button class="back-btn" onclick="goHome()">← 返回經書選擇</button>
+
+    <header class="header">
+      <p class="header-ornament" id="sutraOrnament">◈ &nbsp; 般若波羅蜜 &nbsp; ◈</p>
+      <h1 class="header-title" id="sutraTitle">金 剛 經 解 惑</h1>
+      <p class="header-sub" id="sutraSub">Diamond Sutra · Life Guidance</p>
+      <div style="margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+        <button id="reciteBtn" onclick="startRecite()" style="font-family:var(--serif);font-size:13px;padding:7px 20px;border-radius:20px;border:0.5px solid var(--border2);background:var(--accent-bg);color:var(--accent);cursor:pointer;letter-spacing:2px;">
+          ▶ 朗誦金剛經
+        </button>
+      </div>
+    </header>
+
+    <div class="recite-bar" id="reciteBar">
+      <div class="recite-top">
+        <span class="recite-title" id="reciteBarTitle">📖 朗誦中…</span>
+        <div class="recite-btns">
+          <button class="recite-btn" id="recitePlayBtn" onclick="recitePlayPause()">⏸ 暫停</button>
+          <button class="recite-btn secondary" onclick="reciteRestart()">↺ 重頭</button>
+          <button class="recite-btn secondary" onclick="reciteStop()">✕ 停止</button>
+        </div>
+      </div>
+      <div class="recite-progress-track">
+        <div class="recite-progress-fill" id="reciteProgressFill"></div>
+      </div>
+      <div class="recite-meta">
+        <span id="reciteChapter">—</span>
+        <span id="reciteCount">0 / 0 段</span>
+      </div>
+      <div class="recite-current" id="reciteCurrent">準備朗誦…</div>
+      <div class="recite-speed">
+        <span>速度</span>
+        <input type="range" min="0.5" max="1.2" step="0.05" value="0.72" id="reciteSpeed" oninput="updateSpeed()">
+        <span id="reciteSpeedLabel">0.72×</span>
+      </div>
+    </div>
+
+    <p class="input-label" id="inputLabel">描述您正在面對的困境或煩惱，經文將為您指引方向。</p>
+    <textarea id="dkInput" placeholder="例：工作壓力很大，感到焦慮和迷茫…&#10;我與家人發生衝突，心中充滿委屈…&#10;失去了重要的東西，無法走出悲傷…&#10;&#10;（Ctrl/Cmd + Enter 快速求解）"></textarea>
+    <div class="btn-row">
+      <button class="btn-primary" onclick="seek()">求　解</button>
+      <button onclick="randomQ()">🎲 隨機困境</button>
+      <button onclick="clearAll()">清除</button>
+      <button onclick="openSettings()" style="padding:8px 12px;" title="AI 設定">⚙ AI 設定</button>
+    </div>
+    <div class="chips-row" id="chipsRow"></div>
+    <hr class="divider">
+    <div id="dkResults">
+      <div class="empty">
+        <div class="empty-icon" id="emptyIcon">金　剛　般　若</div>
+        <p class="empty-text">在上方描述您的困境<br>或點選常見困境，經文將為您而現</p>
+      </div>
+    </div>
+    <div id="aiSection" class="ai-section">
+      <div class="ai-header">
+        <span class="ai-title" id="aiTitle">✦ AI 深度解惑</span>
+        <span class="ai-badge" id="aiBadge">ChatGPT</span>
+      </div>
+      <div id="aiBody"></div>
+    </div>
+    <footer id="sutraFooter">
+      <p>金剛般若波羅蜜經 · 姚秦三藏法師鳩摩羅什譯</p>
+      <p style="margin-top:4px;opacity:0.6;">The Diamond Sutra · Translated by Kumārajīva, 402 CE</p>
+    </footer>
+  </div>
+
+</div>
+
+<div style="position:fixed;bottom:16px;right:18px;font-size:12px;color:var(--text2);letter-spacing:1.5px;opacity:0.75;z-index:10;pointer-events:none;">App 創作 &nbsp; Young Chen</div>
+
+<div id="infoModal" class="modal-overlay" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="modal" style="max-width:520px;">
+    <p class="modal-title" style="font-family:var(--serif);letter-spacing:3px;margin-bottom:16px;">平 台 說 明</p>
+    <div style="font-size:13px;color:var(--text2);line-height:2.1;">
+      <p style="margin-bottom:14px;">
+        <span style="color:var(--accent);font-weight:500;">經典解鎖人生</span>是一個結合千年佛典智慧與現代 AI 的心靈引導平台。
+      </p>
+      <p style="margin-bottom:10px;color:var(--text3);font-size:11px;letter-spacing:2px;">使 用 方 式</p>
+      <ol style="padding-left:1.2rem;margin-bottom:16px;display:flex;flex-direction:column;gap:8px;">
+        <li>從首頁選擇一部經書（金剛經或心經）</li>
+        <li>在文字框描述您正面對的困境或煩惱</li>
+        <li>點按「求解」，系統將從經典中找出最相關的經文與解析</li>
+        <li>也可點選下方的「常見困境」快速分類，或按「隨機困境」體驗</li>
+        <li>設定 OpenAI API Key 後，可啟用 ChatGPT 個人化深度解惑</li>
+        <li>點按「朗誦」按鈕可聆聽完整經文的語音朗讀</li>
+      </ol>
+      <p style="margin-bottom:10px;color:var(--text3);font-size:11px;letter-spacing:2px;">AI 功 能</p>
+      <p style="margin-bottom:16px;">
+        AI 解惑使用 OpenAI ChatGPT，需自備 API Key。<br>
+        前往 <a href="https://platform.openai.com/api-keys" target="_blank" style="color:var(--accent);">OpenAI Platform</a> 取得 API Key。<br>
+        API Key 僅儲存於您的瀏覽器本地，不會上傳至任何伺服器。
+      </p>
+      <p style="font-size:11px;color:var(--text3);line-height:1.9;border-top:0.5px solid var(--border);padding-top:12px;">
+        本平台內容僅供心靈參考，不替代專業心理諮商或醫療建議。
+      </p>
+    </div>
+    <div class="modal-btns">
+      <button onclick="document.getElementById('infoModal').classList.remove('show')" style="margin-left:auto;">關閉</button>
+    </div>
+  </div>
+</div>
+
+<div id="settingsModal" class="modal-overlay" onclick="if(event.target===this)closeSettings()">
+  <div class="modal">
+    <p class="modal-title">⚙ AI 解惑設定</p>
+    <p class="modal-sub">
+      輸入您的 OpenAI API Key，啟用 ChatGPT 個人化深度解惑。<br>
+      API Key 僅儲存於本機瀏覽器，不會傳送至任何第三方。<br>
+      <a href="https://platform.openai.com/api-keys" target="_blank" style="color:var(--accent);">前往 OpenAI Platform 取得 Key →</a>
+    </p>
+    <input type="password" id="apiKeyInput" placeholder="sk-..." autocomplete="off">
+    <div class="modal-btns">
+      <button onclick="saveKey()" style="background:var(--accent);color:#fff;border-color:var(--accent);padding:8px 20px;">儲存</button>
+      <button onclick="clearKey()" style="color:var(--text3);">清除金鑰</button>
+      <button onclick="closeSettings()" style="margin-left:auto;">關閉</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════
+   經書資料庫
+══════════════════════════════════════ */
+
+const SUTRAS = {
+
+  diamond: {
+    ornament: '◈ &nbsp; 般若波羅蜜 &nbsp; ◈',
+    title: '金 剛 經 解 惑',
+    sub: 'Diamond Sutra · Life Guidance',
+    reciteBtnText: '▶ 朗誦金剛經',
+    reciteBarTitle: '📖 朗誦金剛經全文',
+    emptyIcon: '金　剛　般　若',
+    aiName: '金剛經',
+    footer: `<p>金剛般若波羅蜜經 · 姚秦三藏法師鳩摩羅什譯</p><p style="margin-top:4px;opacity:0.6;">The Diamond Sutra · Translated by Kumārajīva, 402 CE</p>`,
+    chips: [
+      { label: '壓力焦慮', q: '壓力焦慮 心裡不安 靜不下來' },
+      { label: '失去悲傷', q: '失去悲傷 難過傷心 分離離別' },
+      { label: '人際衝突', q: '衝突爭吵 人際誤解 委屈被針對' },
+      { label: '執著放不下', q: '執著放不下 固執一定要非得' },
+      { label: '迷茫無方向', q: '迷茫沒有方向 徬徨不知所措' },
+      { label: '失敗挫折', q: '失敗挫折 不公平受傷委屈' },
+      { label: '空虛無意義', q: '空虛無意義 沒有目標提不起勁' },
+      { label: '後悔過去', q: '後悔遺憾 過去無法改變自責' },
+      { label: '慾望貪執', q: '慾望貪婪 沉迷無法克制' },
+      { label: '名利虛榮', q: '虛榮物質 名利地位外表攀比' },
+    ],
+    randomQs: [
+      '我在工作上付出很多，卻得不到應有的認可，心裡非常不平衡，不知道該繼續努力還是放棄。',
+      '最近和伴侶的關係越來越緊張，常常為小事爭吵，感覺越來越遠，不知道該怎麼辦。',
+      '我失去了一份很重要的工作，對未來感到茫然和恐懼，不知道下一步該往哪裡走。',
+      '父母對我的人生選擇不支持，夾在自己的夢想和家人期待之間，左右為難，非常痛苦。',
+      '一個很重要的朋友背叛了我的信任，感到憤怒又傷心，不知道能不能再相信別人。',
+      '我已經努力很久了，但事情一直沒有起色，開始深深懷疑自己的能力和價值。',
+      '最近對健康有很多擔憂，各種負面念頭在腦海中不停轉，晚上難以入睡，非常焦慮。',
+      '感覺人生越來越空虛，做什麼事都提不起勁，不知道自己到底真正想要什麼。',
+      '我非常在乎別人對我的看法，總是活在他人的評價中，無法做真實的自己，感覺很累。',
+      '一段重要的感情走到終點，那些回憶和遺憾不斷在心中徘徊，無法走出來。',
+      '我對現狀非常不滿意，卻又非常害怕改變，就這樣陷在進退兩難的困境裡很久了。',
+      '工作、家庭、個人夢想的壓力同時湧來，感覺快要撐不住了，不知道該如何是好。',
+      '我後悔多年前做的一個重要決定，這個遺憾一直影響著我看待自己和生活的方式。',
+      '人生走到中年，突然非常迷惘，不清楚自己的人生意義和存在的價值究竟是什麼。',
+      '我一直在追求更多、更好，但得到之後卻發現還是不快樂，這種慾望讓我感到疲憊不堪。'
+    ],
+    passages: [
+      {
+        text: '凡所有相，皆是虛妄。\n若見諸相非相，即見如來。',
+        ch: '第五品・如理實見分', tag: '執著 · 幻象',
+        keys: ['虛妄','執著','外表','面子','形象','攀比','認可','比較','外在','虛榮','看法','評價','表象','成就','名利','地位','別人眼光','在乎別人','求認可','在意他人'],
+        zh: '所有我們眼中看到的「相」——外在形象、他人評價、得失成就——都是虛幻不實的。許多讓我們痛苦的事，往往源於太在乎外在的「相」。當你能看透這些表象背後的本質，不再執著於外在的認可與得失，便觸及了生命真正的面目。',
+        en: 'All appearances — achievements, reputations, judgments — are illusions. Much of our suffering comes from clinging to how things look. When you see through appearances to their true nature, you touch life\'s real face.'
+      },
+      {
+        text: '應無所住，而生其心。',
+        ch: '第十品・莊嚴淨土分', tag: '焦慮 · 執念',
+        keys: ['焦慮','壓力','緊張','不安','心亂','煩躁','心神不寧','胡思亂想','想太多','執念','情緒','不平靜','無法放鬆','糾結','煩惱','工作壓力','生活壓力','心累','靜不下來','停不下來'],
+        zh: '心不應執著於任何地方，應如流水般自在流動。焦慮往往來自心「住」於某處——住於過去的遺憾，住於未來的恐懼，住於當下的不如意。當心無所執著，自然清明寧靜。這不是要你什麼都不在乎，而是學習「感受一切，而不被一切綁住」。',
+        en: 'Let the mind arise without dwelling anywhere. Anxiety is the mind getting stuck — on past regrets, future fears, present frustrations. This isn\'t about not caring — it\'s learning to feel everything without being imprisoned by it.'
+      },
+      {
+        text: '一切有為法，如夢幻泡影，\n如露亦如電，應作如是觀。',
+        ch: '第三十二品・應化非真分', tag: '失去 · 無常',
+        keys: ['失去','悲傷','離開','結束','分離','死亡','離別','消失','無常','改變','散去','難過','傷心','哀傷','悲慟','放不開','心痛','失落','分手','失業','失戀','親人','物是人非','逝去'],
+        zh: '世間一切有形有為的事物，如同夢境、幻象、水中氣泡，如晨露般短暫，如閃電般轉瞬即逝。你現在失去的，本是幻化；你緊握的，終將散去。這不是說你不應悲傷，而是悲傷之後，你能看見：一切本來如此——珍貴，且短暫。接受無常，是對生命最深的理解。',
+        en: 'All formed phenomena are like dreams, illusions, bubbles, shadows — like dew and lightning, fleeting. What we lose was always transient. Accepting impermanence is the deepest understanding of life.'
+      },
+      {
+        text: '過去心不可得，\n現在心不可得，\n未來心不可得。',
+        ch: '第十八品・一體同觀分', tag: '後悔 · 擔憂',
+        keys: ['後悔','遺憾','過去','以前','那時候','如果','要是','假如','擔心','擔憂','害怕','恐懼','未來','將來','不確定','回不去','晚了','來不及','不能改變','自責','內疚','追悔','憂慮'],
+        zh: '過去的心已不可執取，它已成過去；現在的心剎那生滅，無法抓住；未來的心尚未降臨，你無從把握。三心皆不可得，這是一個解脫的邀請：你不必背負過去，不必恐懼未來，只需活在此刻，如實觀照。後悔是對過去的執著，憂慮是對未來的執著——放下三心，此刻就是你全部的生命。',
+        en: 'The past mind cannot be grasped — it\'s gone. The present mind cannot be grasped. The future mind cannot be grasped — it hasn\'t arrived. Only this moment is real, and it is enough.'
+      },
+      {
+        text: '若菩薩有我相、人相、眾生相、壽者相，\n即非菩薩。',
+        ch: '第三品・大乘正宗分', tag: '衝突 · 自我',
+        keys: ['衝突','爭吵','誤解','被誤解','人際','關係','矛盾','對立','他人','同事','家人','朋友','伴侶','傷害','指責','批評','被批評','對錯','委屈','自我','自尊','驕傲','放不下面子','難堪','被針對','吵架'],
+        zh: '菩薩若有「我」與「他人」的對立分別，就已偏離了覺悟的道路。人際衝突的根源，往往是「我相」——過分執著於「我」的立場、「我」的感受、「我」的正確。試著放下「我對你錯」的框架，看見對方也有他的苦與因緣。無我，不是消滅自己，而是不讓「我」成為痛苦的囚籠。',
+        en: 'Most conflicts arise from clinging to self — my position, my feelings, my rightness. When we loosen the grip of self-concept, we begin to see others\' suffering. Non-self is freedom from the ego\'s prison.'
+      },
+      {
+        text: '如來說法，如筏喻者，\n法尚應捨，何況非法。',
+        ch: '第六品・正信希有分', tag: '執著 · 固執',
+        keys: ['執著','放不下','固執','堅持','執念','非得','必須','一定要','不肯放手','控制','強求','想法','觀念','信念','計劃','期望','鑽牛角尖','一條路走到底','轉不過彎','難以放手'],
+        zh: '佛陀的教法如同渡河之筏，渡河之後，你不會把船背在肩上繼續走路。連正確的方法、良善的信念都應適時放下，何況是那些束縛你的執念？你緊握的「非這樣不可」，也許正是讓你動彈不得的重量。放下不是放棄，而是讓雙手空出來，接納新的可能。',
+        en: 'The Buddha\'s teachings are like a raft — once you\'ve crossed the river, you don\'t carry it on your back. The fixed ideas you cling to may be the very weight holding you down. Letting go opens your hands to new possibilities.'
+      },
+      {
+        text: '若以色見我，以音聲求我，\n是人行邪道，不能見如來。',
+        ch: '第二十六品・法身非相分', tag: '虛榮 · 物質',
+        keys: ['虛榮','表面','外表','物質','金錢','財富','地位','名聲','名利','成功','形象','炫耀','攀比','名牌','社會地位','外貌','顏值','功利','現實','物慾','財富焦慮','追求名利'],
+        zh: '若試圖透過外在形色來尋找真理，或以成就和地位來衡量生命的價值，這條路已然走偏。物質的豐盛、外在的成功，這些都不是生命的核心。當我們把全部心力投注在外在形相，往往錯失了內在真實的自己。真正的滿足，來自內在的清明，而非外在的擁有。',
+        en: 'If you seek truth through form — achievements, status, possessions — you\'ve taken the wrong path. Real fulfillment comes from inner clarity, not outer possession.'
+      },
+      {
+        text: '無有定法名阿耨多羅三藐三菩提，\n亦無有定法如來可說。',
+        ch: '第七品・無得無說分', tag: '迷茫 · 無方向',
+        keys: ['迷茫','迷失','方向','不知道','怎麼辦','選擇','決定','選擇困難','茫然','徬徨','無助','困惑','不確定','答案','人生意義','找不到','沒有目標','無所適從','不知所措','兩難','取捨','迷路'],
+        zh: '沒有一個固定的法叫做「最高覺悟」，也沒有唯一的說法是絕對真理。迷茫，往往因為我們在尋找一個「正確答案」——正確的人生路、正確的選擇。但生命的奧妙正在於：沒有唯一的正確。你的迷茫，或許不是迷失，而是一個更大空間的開展，讓你能在不確定中，發現屬於自己的道路。',
+        en: 'There is no fixed doctrine called supreme awakening. When lost, we\'re often searching for "the right answer." Your confusion may not be lostness — it may be an opening to discover your own authentic path.'
+      },
+      {
+        text: '以無我、無人、無眾生、無壽者，\n修一切善法，即得阿耨多羅三藐三菩提。',
+        ch: '第十七品・究竟無我分', tag: '空虛 · 意義',
+        keys: ['空虛','意義','人生意義','目的','價值','無聊','沒有意義','活著為什麼','意義感','存在','內心空洞','沒動力','失去熱情','找不到意義','人生目標','目標','動力','麻木','什麼都無所謂','提不起勁'],
+        zh: '不執著於「我」在做好事，不執著於「別人」的感謝，不執著於任何結果——在這樣無我的狀態中行一切善，才是最高的覺悟。空虛往往來自問「我能得到什麼」。當你轉向「我能給予什麼」，不計回報地投入一件有意義的事，那個空洞往往會被真實的喜悅填滿。意義不是找來的，是活出來的。',
+        en: 'Practice all good deeds without clinging to self, praise, or outcome. Emptiness often comes from asking "what do I get?" Shift to "what can I give?" — meaning isn\'t found; it\'s lived into.'
+      },
+      {
+        text: '忍辱波羅蜜，\n如來說非忍辱波羅蜜，\n是名忍辱波羅蜜。',
+        ch: '第十四品・離相寂滅分', tag: '挫折 · 忍耐',
+        keys: ['挫折','失敗','不公平','受傷','委屈','忍耐','忍受','痛苦','受委屈','被傷害','憤怒','怒氣','憤恨','不平','不甘心','受氣','吃虧','被欺負','打擊','困難','艱難','逆境','磨難','撐不下去','忍不了'],
+        zh: '真正的忍辱，不是壓抑憤怒、強迫自己忍氣吞聲，而是到達一種境界：你清楚看見所發生的一切，但不再被它主宰。「忍辱」一旦成為執念，就不再是忍辱了。真正的包容來自無我——當你不再有一個需要被保護的脆弱「我」，傷害便失去了力量。這不是軟弱，而是超越傷害的自由。',
+        en: 'True patience is not suppressing anger — it\'s reaching a state where you see clearly what happens but are no longer controlled by it. Real forbearance comes from non-self: when there\'s no fragile "me" to protect, harm loses its power.'
+      },
+      {
+        text: '不應住色生心，不應住聲香味觸法生心，\n應無所住而生其心。',
+        ch: '第十品・莊嚴淨土分', tag: '慾望 · 貪執',
+        keys: ['慾望','貪婪','貪心','想要','無法滿足','不夠','還不夠','一直想要','沉迷','上癮','無法克制','控制不了','誘惑','物慾','渴望','欲罷不能','貪執','放縱','慾望驅使'],
+        zh: '不應被視覺所見迷惑而生出執著，不應被聲音、香氣、味道、觸感所束縛——心應當自由流動，無所執取。慾望本身並不是問題，問題在於心「住」於慾望之中，被它牢牢抓住。當你能觀察慾望升起，而不被它帶走，這一刻的清醒，就是覺悟的開始。',
+        en: 'Don\'t let the mind get stuck in what it sees, hears, smells, tastes, or touches. Desire itself isn\'t the problem; enslavement to desire is. Observe a craving arising without being swept away — that is the beginning of freedom.'
+      },
+      {
+        text: '菩薩應離一切相，\n發阿耨多羅三藐三菩提心。',
+        ch: '第十四品・離相寂滅分', tag: '新開始 · 勇氣',
+        keys: ['新開始','重新開始','改變','轉變','勇氣','踏出第一步','開始','嘗試','害怕改變','怕失敗','畏懼','裹足不前','不敢','沒有勇氣','放棄舊的','邁向新的','突破','超越','蛻變','成長','重生','走出舒適圈','想改變'],
+        zh: '菩薩應當離開一切舊有的執著和框架，發起最高覺悟之心。每一個真正的新開始，都需要放下某些舊的自我——舊的身份、舊的執念、舊的恐懼。不是帶著舊的包袱走向新的地方，而是輕盈地、清醒地，帶著一顆開放的心，走向未知。你已準備好了，比你知道的更多。',
+        en: 'Depart from all fixed appearances and arise with the mind of awakening. Every true new beginning requires releasing parts of the old self. Move forward lightly and clearly, with an open heart toward the unknown. You are more ready than you know.'
+      }
+    ],
+    fullText: [
+      '姚秦三藏法師鳩摩羅什譯。金剛般若波羅蜜經。',
+      '如是我聞。一時，佛在舍衛國祇樹給孤獨園，與大比丘眾千二百五十人俱。爾時，世尊食時，著衣持缽，入舍衛大城乞食。於其城中，次第乞已，還至本處。飯食訖，收衣缽，洗足已，敷座而坐。',
+      '時，長老須菩提在大眾中即從座起，偏袒右肩，右膝著地，合掌恭敬而白佛言：希有！世尊！如來善護念諸菩薩，善付囑諸菩薩。世尊！善男子、善女人，發阿耨多羅三藐三菩提心，應云何住？云何降伏其心？',
+      '佛言：善哉，善哉。須菩提！如汝所說：如來善護念諸菩薩，善付囑諸菩薩，汝今諦聽！當為汝說：善男子、善女人，發阿耨多羅三藐三菩提心，應如是住，如是降伏其心。唯然。世尊！願樂欲聞。',
+      '佛告須菩提：諸菩薩摩訶薩應如是降伏其心！所有一切眾生之類：若卵生、若胎生、若濕生、若化生；若有色、若無色；若有想、若無想、若非有想非無想，我皆令入無餘涅槃而滅度之。如是滅度無量無數無邊眾生，實無眾生得滅度者。何以故？須菩提！若菩薩有我相、人相、眾生相、壽者相，即非菩薩。',
+      '復次，須菩提！菩薩於法，應無所住，行於布施，所謂不住色布施，不住聲香味觸法布施。須菩提！菩薩應如是布施，不住於相。何以故？若菩薩不住相布施，其福德不可思量。',
+      '須菩提！於意云何？東方虛空可思量不？不也，世尊！須菩提！南西北方四維上下虛空可思量不？不也，世尊！須菩提！菩薩無住相布施，福德亦復如是不可思量。須菩提！菩薩但應如所教住。',
+      '須菩提！於意云何？可以身相見如來不？不也，世尊！不可以身相得見如來。何以故？如來所說身相，即非身相。佛告須菩提：凡所有相，皆是虛妄。若見諸相非相，即見如來。',
+      '須菩提白佛言：世尊！頗有眾生，得聞如是言說章句，生實信不？佛告須菩提：莫作是說。如來滅後，後五百歲，有持戒修福者，於此章句能生信心，以此為實，當知是人不於一佛二佛三四五佛而種善根，已於無量千萬佛所種諸善根，聞是章句，乃至一念生淨信者，須菩提！如來悉知悉見，是諸眾生得如是無量福德。',
+      '無法相，亦無非法相。何以故？是諸眾生若心取相，則為著我人眾生壽者。若取法相，即著我人眾生壽者。是故不應取法，不應取非法。以是義故，如來常說：汝等比丘，知我說法，如筏喻者，法尚應捨，何況非法。',
+      '須菩提！於意云何？如來得阿耨多羅三藐三菩提耶？如來有所說法耶？須菩提言：如我解佛所說義，無有定法名阿耨多羅三藐三菩提，亦無有定法，如來可說。何以故？如來所說法，皆不可取、不可說、非法、非非法。所以者何？一切賢聖，皆以無為法而有差別。',
+      '須菩提！於意云何？若人滿三千大千世界七寶以用布施，是人所得福德，寧為多不？須菩提言：甚多，世尊！若復有人，於此經中受持，乃至四句偈等，為他人說，其福勝彼。何以故？須菩提！一切諸佛，及諸佛阿耨多羅三藐三菩提法，皆從此經出。',
+      '須菩提！於意云何？須陀洹能作是念：我得須陀洹果不？須菩提言：不也，世尊！何以故？須陀洹名為入流，而無所入，不入色聲香味觸法，是名須陀洹。',
+      '須菩提！於意云何？阿羅漢能作是念：我得阿羅漢道不？須菩提言：不也，世尊！何以故？實無有法名阿羅漢。世尊！佛說我得無諍三昧，人中最為第一，是第一離欲阿羅漢。世尊！我不作是念：我是離欲阿羅漢。',
+      '佛告須菩提：於意云何？如來昔在燃燈佛所，於法有所得不？不也，世尊！如來在燃燈佛所，於法實無所得。須菩提！菩薩莊嚴佛土者，即非莊嚴，是名莊嚴。是故須菩提，諸菩薩摩訶薩應如是生清淨心，不應住色生心，不應住聲香味觸法生心，應無所住而生其心。',
+      '佛告須菩提：若善男子、善女人，於此經中，乃至受持四句偈等，為他人說，而此福德勝前福德。復次，須菩提！隨說是經，乃至四句偈等，當知此處，一切世間、天、人、阿修羅，皆應供養，如佛塔廟。',
+      '爾時，須菩提白佛言：世尊！當何名此經？我等云何奉持？佛告須菩提：是經名為金剛般若波羅蜜，以是名字，汝當奉持。所以者何？須菩提！佛說般若波羅蜜，即非般若波羅蜜，是名般若波羅蜜。',
+      '須菩提！於意云何？三千大千世界所有微塵是為多不？須菩提言：甚多，世尊！如來說：世界，非世界，是名世界。須菩提！於意云何？可以三十二相見如來不？不也，世尊！不可以三十二相得見如來。何以故？如來說：三十二相，即是非相，是名三十二相。',
+      '爾時，須菩提聞說是經，深解義趣，涕淚悲泣，而白佛言：希有，世尊！佛說如是甚深經典，我從昔來所得慧眼，未曾得聞如是之經。世尊！若復有人得聞是經，信心清淨，則生實相，當知是人，成就第一希有功德。',
+      '佛告須菩提：如是！如是！若復有人，得聞是經，不驚、不怖、不畏，當知是人甚為希有。須菩提！忍辱波羅蜜，如來說非忍辱波羅蜜，是名忍辱波羅蜜。',
+      '是故須菩提！菩薩應離一切相，發阿耨多羅三藐三菩提心，不應住色生心，不應住聲香味觸法生心，應生無所住心。若心有住，即為非住。',
+      '須菩提！如來是真語者、實語者、如語者、不誑語者、不異語者。須菩提！如來所得法，此法無實無虛。',
+      '須菩提！當來之世，若有善男子、善女人，能於此經受持讀誦，即為如來以佛智慧，悉知是人，悉見是人，皆得成就無量無邊功德。',
+      '須菩提！以要言之，是經有不可思議、不可稱量、無邊功德。如來為發大乘者說，為發最上乘者說。若有人能受持讀誦，廣為人說，如來悉知是人，悉見是人，皆得成就不可思議功德。',
+      '須菩提！在在處處，若有此經，一切世間、天、人、阿修羅，所應供養；當知此處，則為是塔，皆應恭敬，作禮圍繞，以諸華香而散其處。',
+      '須菩提！若善男子、善女人，受持讀誦此經，若為人輕賤，是人先世罪業，應墮惡道，以今世人輕賤故，先世罪業則為消滅，當得阿耨多羅三藐三菩提。',
+      '爾時，須菩提白佛言：世尊！善男子、善女人，發阿耨多羅三藐三菩提心，云何應住？云何降伏其心？佛告須菩提：若菩薩有我相、人相、眾生相、壽者相，即非菩薩。須菩提！實無有法發阿耨多羅三藐三菩提心者。',
+      '須菩提！實無有法如來得阿耨多羅三藐三菩提。以實無有法得阿耨多羅三藐三菩提，是故燃燈佛與我授記，作是言：汝於來世，當得作佛，號釋迦牟尼。何以故？如來者，即諸法如義。',
+      '是故如來說：一切法皆是佛法。須菩提！所言一切法者，即非一切法，是故名一切法。須菩提！若菩薩通達無我法者，如來說名真是菩薩。',
+      '佛告須菩提：爾所國土中，所有眾生，若干種心，如來悉知。何以故？如來說：諸心皆為非心，是名為心。所以者何？須菩提！過去心不可得，現在心不可得，未來心不可得。',
+      '須菩提！若福德有實，如來不說得福德多；以福德無故，如來說得福德多。須菩提！如來可以具足諸相見不？不也，世尊！如來不應以具足諸相見。何以故？如來說：諸相具足，即非具足，是名諸相具足。',
+      '爾時，世尊而說偈言：若以色見我，以音聲求我，是人行邪道，不能見如來。',
+      '須菩提！若菩薩以滿恒河沙等世界七寶，持用布施；若復有人知一切法無我，得成於忍，此菩薩勝前菩薩所得功德。須菩提！菩薩所作福德，不應貪著，是故說不受福德。',
+      '須菩提！如來者，無所從來，亦無所去，故名如來。',
+      '須菩提！發阿耨多羅三藐三菩提心者，於一切法，應如是知，如是見，如是信解，不生法相。須菩提！所言法相者，如來說即非法相，是名法相。',
+      '云何為人演說，不取於相，如如不動。何以故？一切有為法，如夢幻泡影，如露亦如電，應作如是觀。',
+      '佛說是經已，長老須菩提及諸比丘、比丘尼、優婆塞、優婆夷、一切世間、天、人、阿修羅，聞佛所說，皆大歡喜，信受奉行。'
+    ]
+  },
+
+  heart: {
+    ornament: '◈ &nbsp; 摩訶般若波羅蜜多 &nbsp; ◈',
+    title: '心 經 解 惑',
+    sub: 'Heart Sutra · Life Guidance',
+    reciteBtnText: '▶ 朗誦心經',
+    reciteBarTitle: '📖 朗誦心經全文',
+    emptyIcon: '般　若　心　經',
+    aiName: '心經',
+    footer: `<p>般若波羅蜜多心經 · 唐三藏法師玄奘譯</p><p style="margin-top:4px;opacity:0.6;">The Heart Sutra · Translated by Xuanzang, 649 CE</p>`,
+    chips: [
+      { label: '壓力焦慮', q: '壓力焦慮 心裡不安 靜不下來 恐懼' },
+      { label: '失去悲傷', q: '失去悲傷 難過傷心 分離苦難' },
+      { label: '人際衝突', q: '衝突爭吵 人際誤解 委屈被針對' },
+      { label: '執著放不下', q: '執著放不下 固執罣礙煩惱' },
+      { label: '迷茫無方向', q: '迷茫沒有方向 徬徨不知所措' },
+      { label: '空虛無意義', q: '空虛無意義 沒有目標提不起勁' },
+      { label: '恐懼未知', q: '恐懼害怕未知不確定顛倒夢想' },
+      { label: '身心疲憊', q: '疲憊累了身心俱疲撐不下去' },
+      { label: '慾望貪執', q: '慾望貪婪執著沉迷慾念' },
+      { label: '後悔自責', q: '後悔遺憾自責內疚過去無法改變' },
+    ],
+    randomQs: [
+      '生活給了我很多壓力，我感到心神不寧，一直靜不下來，不知道怎麼讓自己平靜。',
+      '我對未來充滿恐懼，各種壞的情況在腦海裡不斷出現，讓我每天都很焦慮。',
+      '我失去了一位很重要的人，那種空缺感讓我不知道該怎麼繼續生活下去。',
+      '我非常在意別人對我的看法，總是活在評價的恐懼中，做任何事都畏首畏尾。',
+      '工作上一直受到不公平的對待，滿腔的委屈和憤怒讓我無法釋懷。',
+      '我對什麼事情都提不起勁，感覺生命失去了色彩，每天都是灰色的。',
+      '我執著於一段感情，明知道應該放手，卻怎麼也放不下，非常痛苦。',
+      '身體感到很疲憊，心裡也很累，好像快要撐不住了。',
+      '我一直追求完美，稍微有一點不足就會自責很久，這讓我非常痛苦。',
+      '面對人生的種種苦難，我開始懷疑：為什麼這一切都要發生在我身上？',
+      '我放不下過去的遺憾，那些本可以不同的選擇一直在折磨著我。',
+      '我感覺自己被各種慾望拉著走，明知道不好卻無法克制，非常困擾。',
+      '最近身體出現了一些問題，對死亡和無常有很深的恐懼，不知道怎麼面對。',
+      '我對現實生活感到很不滿足，但又不知道自己真正想要的是什麼。',
+      '人生走到這個階段，感覺一切都是虛的，不知道什麼才是真實的、有意義的。'
+    ],
+    passages: [
+      {
+        text: '觀自在菩薩，行深般若波羅蜜多時，\n照見五蘊皆空，度一切苦厄。',
+        ch: '心經・開篇', tag: '苦難 · 解脫',
+        keys: ['苦難','痛苦','苦','困苦','煎熬','受苦','解脫','出路','走不出','度過','熬過','撐過','脫困','一切苦厄','苦厄','難關','難熬'],
+        zh: '觀自在菩薩在深度禪觀中洞見：我們所執著的一切——身體感受、情緒、念頭、記憶、意識——其實都是空的，沒有固定不變的本質。正是這個洞見，讓他度越了一切苦難。你現在所承受的苦，是真實的感受，但苦的來源，往往是我們把某件事看得太「實」、太「固定」。當你開始覺察到苦的本質並非永恆，解脫便已在路上了。',
+        en: 'Avalokitesvara perceived that all five aggregates are empty and thus crossed beyond all suffering. Our pain is real, but often intensified by seeing things as fixed and solid. When we see the empty nature of what causes suffering, liberation begins.'
+      },
+      {
+        text: '色即是空，空即是色。\n受想行識，亦復如是。',
+        ch: '心經・色空不二', tag: '執著 · 無常',
+        keys: ['執著','無常','放不下','固執','消逝','改變','失去','分離','結束','離別','放手','執念','色空','現實','幻滅','不實','虛幻','抓不住'],
+        zh: '「色」指所有物質現象與外在形相；「空」不是虛無，而是「不固定」、「互相依存」、「隨時在變化」。色即是空——你執著的那個人、那件事、那個身份，本質上是流動的、無常的。空即是色——這不是說什麼都沒有，而是在空的流動中，一切都可以重新生起。放下執著，不是失去，而是讓生命重新流動。',
+        en: 'Form is emptiness; emptiness is form. What we cling to — people, identities, achievements — is in constant flux. Emptiness doesn\'t mean nothingness; it means freedom from fixation, allowing life to flow and renew itself.'
+      },
+      {
+        text: '心無罣礙，無罣礙故，\n無有恐怖，遠離顛倒夢想，究竟涅槃。',
+        ch: '心經・無罣礙', tag: '焦慮 · 恐懼',
+        keys: ['焦慮','恐懼','害怕','擔心','擔憂','不安','恐怖','心慌','惶恐','罣礙','心煩','煩惱','放不下心','忐忑','緊張','壓力','靜不下來','睡不著','顛倒','夢想','幻想'],
+        zh: '「罣礙」是讓心被某件事掛住、卡住、拉扯住。心有罣礙，便生恐懼；恐懼又帶來種種「顛倒夢想」——把不確定的事情想成了最壞的結果，把一時的困難想成了永遠的絕境。當心能放下這些罣礙，恐懼便無從生起，那種深沉的安定——涅槃——其實就在此刻的清醒之中。',
+        en: 'Without mental obstructions, there is no fear. Fear arises from the mind getting snagged on something — a worry, an outcome, a threat. When the mind releases these snags, the profound peace of nirvana is already here, in this moment of clear awareness.'
+      },
+      {
+        text: '是諸法空相，不生不滅，\n不垢不淨，不增不減。',
+        ch: '心經・諸法空相', tag: '自責 · 完美',
+        keys: ['自責','內疚','不夠好','完美','完美主義','覺得自己差','覺得不好','批評自己','責備','罪惡感','羞愧','慚愧','恥辱','難堪','自卑','不值得','一無是處','太差了'],
+        zh: '一切事物的本質：不生不滅——沒有什麼是從無到有地「壞掉」，也沒有什麼會永遠「消失」；不垢不淨——你不是「骯髒」的，你也不需要變得「完美」；不增不減——你本來就是完整的，不因某次失誤而減少，也不因某次成就而增加。你此刻已然足夠，只是還沒看見。',
+        en: 'All things are empty of inherent nature — not created, not destroyed, not defiled, not pure, not increasing, not decreasing. You are already whole. No failure makes you less; no achievement makes you more. You are enough, as you are.'
+      },
+      {
+        text: '無苦集滅道，無智亦無得，\n以無所得故，菩提薩埵。',
+        ch: '心經・無智無得', tag: '迷茫 · 無所求',
+        keys: ['迷茫','徬徨','找不到','不知道','方向','無助','困惑','目標','答案','求','追求','得到','得不到','沒有得到','執著結果','功利','計較得失','患得患失','算計'],
+        zh: '在更深的智慧中，連「智慧」和「所得」都不應執取。我們往往以為只要找到正確答案、得到某個結果，困境就會解除。但真正的菩提，不是得到什麼，而是「以無所得故」——當你放下對「得到」的執著，反而能以清明的心面對每一個當下。迷茫，有時候是因為我們太用力地想「得到」答案了。',
+        en: 'Even wisdom and attainment are to be released. We often believe that finding the right answer or gaining something will end our struggles. But true awakening comes through non-grasping — when we stop clutching at outcomes, clarity naturally arises.'
+      },
+      {
+        text: '無眼耳鼻舌身意，\n無色聲香味觸法。',
+        ch: '心經・六根六塵', tag: '慾望 · 感官',
+        keys: ['慾望','享樂','感官','上癮','沉迷','無法克制','誘惑','貪圖','貪戀','依賴','渴望','放縱','口慾','物質','享受','縱慾','慾念','控制不了'],
+        zh: '「眼耳鼻舌身意」是六根，「色聲香味觸法」是六塵——感官接觸外境，本是自然的覺知。問題不在感官本身，而在於我們用感官去「攀緣」、去執取、去排斥。心經告訴我們：感官的本質是空的，沒有一個東西「本來就應該讓你快樂」或「本來就是你的」。觀察感官的升起與落下，不被帶走，就是自在。',
+        en: 'The senses — sight, sound, smell, taste, touch, thought — are natural awarenesses. The problem isn\'t sensation itself but our clinging and aversion. When we observe sensations arise and pass without grasping, that is freedom.'
+      },
+      {
+        text: '照見五蘊皆空，度一切苦厄。',
+        ch: '心經・五蘊皆空', tag: '情緒 · 身心',
+        keys: ['情緒','心情','難過','沮喪','憂鬱','低落','壓抑','崩潰','身心','身體','疲憊','累了','撐不住','身心俱疲','心力交瘁','快撐不住','精疲力竭','心很重'],
+        zh: '五蘊是構成「我們」的五個層面：色（身體）、受（感受）、想（念頭）、行（意志）、識（意識）。我們通常把這五蘊緊緊抓住，視為「我」。當情緒來襲，我們說「我很難過」——彷彿難過就是「我」。心經說：這五蘊皆空——這個「難過的我」並不是固定的真實存在，它會來，它也會過去。觀察情緒，而非成為情緒。',
+        en: 'The five aggregates — form, feeling, perception, volition, consciousness — are all empty. When we say "I am sad," we identify with a passing state as if it were permanent. Observing emotion rather than being emotion is the path through.'
+      },
+      {
+        text: '能除一切苦，真實不虛。\n故說般若波羅蜜多咒。',
+        ch: '心經・除一切苦', tag: '絕望 · 信心',
+        keys: ['絕望','無望','放棄','沒有希望','走投無路','黑暗','看不到出路','死路','想放棄','不想撐了','撐不下去了','崩潰','沒有辦法','救不了','無能為力','沒救了'],
+        zh: '般若波羅蜜多——超越智慧——能除一切苦，這是真實的，不是虛妄的承諾。不是說你不會再感受到苦，而是：在更深的智慧中，苦的本質會被看透，它對你的掌控會鬆動。此刻你感到的絕望、黑暗、走投無路，都是真實的感受。但感受不等於真相。先讓自己坐在這裡，呼吸，知道這一刻你還在。',
+        en: 'Prajna paramita truly removes all suffering — not by eliminating all pain, but by seeing through its nature. The darkness you feel is real. But a feeling is not the final truth. Breathe. You are still here. That matters.'
+      },
+      {
+        text: '遠離顛倒夢想，究竟涅槃。',
+        ch: '心經・離顛倒夢想', tag: '混亂 · 清醒',
+        keys: ['混亂','亂','紛亂','思緒混亂','想太多','胡思亂想','鑽牛角尖','想不開','想偏了','顛倒','夢想','幻想','妄想','不切實際','鑽死角','繞不出來','出不去','陷進去','深陷'],
+        zh: '「顛倒夢想」是把不真實的當真實，把暫時的當永恆，把局部的當全部。焦慮的時候，我們最容易陷入顛倒：把「可能發生」當「一定發生」，把「一時的失敗」當「永遠的失敗」。涅槃不在遠方，它就在你從顛倒中清醒的那一刻。停下來，問自己：「我現在的想法，是真實的，還是我建構出來的故事？」',
+        en: 'Inverted views mean mistaking the impermanent for permanent, the partial for the whole. Anxiety thrives on this inversion. Nirvana is not far away — it is the moment you wake up from the story you are telling yourself and return to what is actually here.'
+      },
+      {
+        text: '揭諦揭諦，波羅揭諦，\n波羅僧揭諦，菩提薩婆訶。',
+        ch: '心經・結尾咒語', tag: '前行 · 勇氣',
+        keys: ['前行','繼續','走下去','勇氣','力量','堅持','往前','出發','踏出','去做','行動','開始','重新','鼓起勇氣','加油','努力','前進','新的開始','不放棄'],
+        zh: '「揭諦揭諦，波羅揭諦」——去吧，去吧，到彼岸去吧。這是整部心經的結語，也是一個邀請：不管現在的困境有多重，都繼續走。「波羅」是彼岸——每一步都在渡河，每一步都在靠近。你不需要先解決所有問題才能前進，你可以帶著疑問、帶著不確定，帶著此刻的你，繼續走。菩提薩婆訶——覺悟就在路上。',
+        en: 'Gate gate paragate parasamgate bodhi svaha — Go, go, go beyond, go completely beyond, awaken. You do not need to resolve everything before moving forward. You can carry uncertainty, questions, and this imperfect version of yourself — and walk. Awakening is in the walking.'
+      }
+    ],
+    fullText: [
+      '般若波羅蜜多心經。唐三藏法師玄奘譯。',
+      '觀自在菩薩，行深般若波羅蜜多時，照見五蘊皆空，度一切苦厄。',
+      '舍利子，色不異空，空不異色，色即是空，空即是色，受想行識，亦復如是。',
+      '舍利子，是諸法空相，不生不滅，不垢不淨，不增不減。',
+      '是故空中無色，無受想行識，無眼耳鼻舌身意，無色聲香味觸法，無眼界，乃至無意識界。',
+      '無無明，亦無無明盡，乃至無老死，亦無老死盡。無苦集滅道，無智亦無得，以無所得故。',
+      '菩提薩埵，依般若波羅蜜多故，心無罣礙，無罣礙故，無有恐怖，遠離顛倒夢想，究竟涅槃。',
+      '三世諸佛，依般若波羅蜜多故，得阿耨多羅三藐三菩提。',
+      '故知般若波羅蜜多，是大神咒，是大明咒，是無上咒，是無等等咒，能除一切苦，真實不虛。',
+      '故說般若波羅蜜多咒，即說咒曰：揭諦揭諦，波羅揭諦，波羅僧揭諦，菩提薩婆訶。'
+    ]
+  }
+};
+
+/* ══════════════════════════════════════
+   狀態
+══════════════════════════════════════ */
+let currentSutra = null;
+let currentPassages = [];
+let currentUserInput = '';
+let speakingBtn = null;
+let isRunningAI = false;
+
+const OPENAI_MODEL = 'gpt-4o-mini';
+
+/* ══════════════════════════════════════
+   導航
+══════════════════════════════════════ */
+function enterSutra(type) {
+  currentSutra = type;
+  const s = SUTRAS[type];
+  document.getElementById('sutraOrnament').innerHTML = s.ornament;
+  document.getElementById('sutraTitle').textContent = s.title;
+  document.getElementById('sutraSub').textContent = s.sub;
+  document.getElementById('reciteBtn').textContent = s.reciteBtnText;
+  document.getElementById('sutraFooter').innerHTML = s.footer;
+  document.getElementById('emptyIcon').textContent = s.emptyIcon;
+
+  const chips = document.getElementById('chipsRow');
+  chips.innerHTML = '<span class="chips-label">常見困境：</span>';
+  s.chips.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'chip';
+    btn.textContent = c.label;
+    btn.onclick = () => qs(c.q);
+    chips.appendChild(btn);
+  });
+
+  clearAll();
+  document.getElementById('homeView').style.display = 'none';
+  document.getElementById('sutraView').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+function goHome() {
+  reciteStop();
+  stopSpeak();
+  document.getElementById('homeView').style.display = 'block';
+  document.getElementById('sutraView').style.display = 'none';
+  currentSutra = null;
+  window.scrollTo(0, 0);
+}
+
+/* ══════════════════════════════════════
+   解惑邏輯
+══════════════════════════════════════ */
+function score(input, p) {
+  let s = 0;
+  p.keys.forEach(k => { if (input.includes(k)) s++; });
+  return s;
+}
+
+function seek() {
+  const v = document.getElementById('dkInput').value.trim();
+  if (!v) { showErr('請先描述您的困境，再按求解。'); return; }
+  currentUserInput = v;
+  const P = SUTRAS[currentSutra].passages;
+  const scored = P.map(p => ({ p, s: score(v, p) })).sort((a, b) => b.s - a.s);
+  currentPassages = scored[0].s === 0
+    ? scored.slice(0, 2).map(x => x.p)
+    : scored.filter(x => x.s > 0).slice(0, 3).map(x => x.p);
+  render(currentPassages, '為您找到 ' + currentPassages.length + ' 段相關經文');
+  setupAI();
+  stopSpeak();
+}
+
+function randomQ() {
+  const qs_list = SUTRAS[currentSutra].randomQs;
+  const q = qs_list[Math.floor(Math.random() * qs_list.length)];
+  document.getElementById('dkInput').value = q;
+  seek();
+}
+
+function qs(q) {
+  document.getElementById('dkInput').value = q;
+  seek();
+}
+
+function clearAll() {
+  document.getElementById('dkInput').value = '';
+  currentPassages = []; currentUserInput = ''; isRunningAI = false;
+  stopSpeak();
+  const s = currentSutra ? SUTRAS[currentSutra] : null;
+  document.getElementById('dkResults').innerHTML = `<div class="empty"><div class="empty-icon">${s ? s.emptyIcon : ''}</div><p class="empty-text">在上方描述您的困境<br>或點選常見困境，經文將為您而現</p></div>`;
+  document.getElementById('aiSection').classList.remove('show');
+}
+
+function showErr(msg) {
+  document.getElementById('dkResults').innerHTML = `<p style="text-align:center;color:var(--text3);font-size:14px;padding:2rem 0;">${msg}</p>`;
+  document.getElementById('aiSection').classList.remove('show');
+}
+
+function render(passages, label) {
+  const el = document.getElementById('dkResults');
+  el.innerHTML = `<p class="results-label">${label}</p>`;
+  passages.forEach((p, i) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    const lines = p.text.split('\n').map(l => `<span style="display:block;">${l}</span>`).join('');
+    const speakText = `${p.ch}。${p.text.replace(/\n/g, '，')}。解析：${p.zh}`;
+    card.innerHTML = `
+      <div class="card-meta">
+        <span class="card-tag">${p.tag}</span>
+        <span class="card-chapter">${p.ch}</span>
+      </div>
+      <div class="card-passage">${lines}</div>
+      <hr class="card-divider">
+      <p class="section-label">中文解析</p>
+      <p class="section-zh">${p.zh}</p>
+      <p class="section-label">English Insight</p>
+      <p class="section-en">${p.en}</p>
+      <button class="speak-btn" id="spk${i}" onclick="toggleSpeak(this, \`${speakText.replace(/`/g,"'")}\`, 'spk${i}')">
+        ▶ 朗讀經文
+      </button>`;
+    el.appendChild(card);
+    setTimeout(() => card.classList.add('visible'), i * 160 + 50);
+  });
+}
+
+/* ══════════════════════════════════════
+   AI 解惑
+══════════════════════════════════════ */
+function setupAI() {
+  const sec = document.getElementById('aiSection');
+  const body = document.getElementById('aiBody');
+  const key = localStorage.getItem('sutra_openai_key');
+  isRunningAI = false;
+  sec.classList.add('show');
+  if (!key) {
+    body.innerHTML = `<p style="font-size:13px;color:var(--text3);line-height:1.9;">
+      如需 ChatGPT 個人化深度解惑，請先
+      <a onclick="openSettings()" style="color:var(--accent);cursor:pointer;text-decoration:underline;">設定 OpenAI API Key</a>，
+      AI 將根據您的具體情況與相關經文，提供更深入的個人化引導。
+    </p>`;
+  } else {
+    body.innerHTML = `<div class="ai-action-row">
+      <button onclick="runAI()" style="background:var(--accent);color:#fff;border-color:var(--accent);font-size:14px;padding:8px 22px;letter-spacing:1px;">✦ 請 AI 解惑</button>
+      <span style="font-size:12px;color:var(--text3);">根據您的困境與相關經文提供個人化引導</span>
+    </div>`;
+  }
+}
+
+function showAIError(msg, canRetry) {
+  const body = document.getElementById('aiBody');
+  body.innerHTML = `<div class="ai-error">${msg}${canRetry ? `<br><button class="retry-btn" onclick="runAI()">↺ 重新嘗試</button>` : ''}</div>`;
+  isRunningAI = false;
+}
+
+async function runAI() {
+  const key = localStorage.getItem('sutra_openai_key');
+  if (!key || !currentUserInput || !currentPassages.length) return;
+  if (isRunningAI) return;
+  isRunningAI = true;
+  const body = document.getElementById('aiBody');
+  body.innerHTML = '<p class="ai-thinking">✦ 正在為您深度解惑，請稍候…</p>';
+  stopSpeak();
+
+  const sutраName = SUTRAS[currentSutra].aiName;
+  const passagesText = currentPassages.map(p =>
+    `【${p.ch}】「${p.text.replace(/\n/g, '')}」\n解析：${p.zh}`
+  ).join('\n\n');
+
+  const prompt = `你是一位深諳${sutраName}智慧、溫暖而有洞察力的善知識。
+
+用戶分享了以下的生活困境：
+「${currentUserInput}」
+
+我們已從${sutраName}中找到以下相關經文與解析：
+${passagesText}
+
+請以${sutраName}的智慧，為此人提供一段溫暖、深刻、個人化的解惑與引導。
+要求：
+- 直接回應此人的具體困境，不要泛泛而談
+- 將${sutраName}的智慧自然融入，讓人感受到佛法的溫度與力量
+- 語氣如智慧老友娓娓道來，溫暖不說教
+- 結尾給一個具體的小修行建議或今日觀想
+- 繁體中文，約280-350字`;
+
+  try {
+    const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${key}`
+      },
+      body: JSON.stringify({
+        model: OPENAI_MODEL,
+        messages: [{ role: 'user', content: prompt }],
+        max_tokens: 700,
+        temperature: 0.85
+      })
+    });
+    const data = await resp.json();
+    if (!resp.ok) {
+      const errMsg = data.error?.message || resp.statusText;
+      if (resp.status === 401) {
+        showAIError(`❌ API Key 無效，請重新設定。<br><a onclick="openSettings()" style="color:var(--accent);cursor:pointer;">點此重設 API Key</a>`, false);
+        return;
+      }
+      if (resp.status === 429) {
+        showAIError(`⚠️ 請求次數超過限制，請稍後再試。<br><span style="font-size:12px;opacity:0.7;">${errMsg}</span>`, true);
+        return;
+      }
+      showAIError(`⚠️ ${errMsg}`, true);
+      return;
+    }
+    const text = data.choices?.[0]?.message?.content || '';
+    if (!text) { showAIError('⚠️ AI 未返回內容，請重新嘗試。', true); return; }
+    body.innerHTML = `
+      <p class="ai-response" id="aiText"></p>
+      <div style="margin-top:14px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <button class="speak-btn" id="spkAI" onclick="toggleSpeak(this, document.getElementById('aiText').textContent, 'spkAI')">▶ 朗讀解惑</button>
+        <button onclick="runAI()" style="font-size:12px;padding:4px 12px;border-radius:20px;color:var(--text3);border-color:var(--border);background:transparent;cursor:pointer;">↺ 重新解惑</button>
+      </div>`;
+    document.getElementById('aiText').textContent = text;
+    isRunningAI = false;
+  } catch(e) {
+    showAIError(`⚠️ 網路錯誤，請確認網路連線後重新嘗試。`, true);
+  }
+}
+
+/* ══════════════════════════════════════
+   Text-to-Speech
+══════════════════════════════════════ */
+let voices = [];
+function loadVoices() { voices = speechSynthesis.getVoices(); }
+speechSynthesis.onvoiceschanged = loadVoices;
+loadVoices();
+
+function getMaleVoice() {
+  const all = voices.length ? voices : speechSynthesis.getVoices();
+  const zh = all.filter(v => v.lang.startsWith('zh') || v.lang.startsWith('cmn'));
+  if (zh.length) {
+    const male = zh.find(v => v.name.toLowerCase().includes('male') || v.name.includes('Ming') || v.name.includes('Kai') || (!v.name.toLowerCase().includes('female') && !v.name.includes('Mei') && !v.name.includes('Ting')));
+    return male || zh[0];
+  }
+  return all.find(v => v.lang.startsWith('zh')) || null;
+}
+
+function stopSpeak() {
+  speechSynthesis.cancel();
+  if (speakingBtn) {
+    speakingBtn.textContent = '▶ ' + speakingBtn.dataset.label;
+    speakingBtn.classList.remove('playing');
+    speakingBtn = null;
+  }
+}
+
+function toggleSpeak(btn, text, id) {
+  if (speakingBtn && speakingBtn.id === id) { stopSpeak(); return; }
+  stopSpeak();
+  if (!btn.dataset.label) btn.dataset.label = btn.textContent.replace('▶ ', '').replace('⏸ ', '');
+  btn.textContent = '⏸ 暫停朗讀';
+  btn.classList.add('playing');
+  speakingBtn = btn;
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'zh-TW'; utter.rate = 0.78; utter.pitch = 0.75; utter.volume = 1;
+  const v = getMaleVoice();
+  if (v) utter.voice = v;
+  utter.onend = () => { btn.textContent = '▶ ' + btn.dataset.label; btn.classList.remove('playing'); if (speakingBtn === btn) speakingBtn = null; };
+  utter.onerror = () => { btn.textContent = '▶ ' + btn.dataset.label; btn.classList.remove('playing'); if (speakingBtn === btn) speakingBtn = null; };
+  speechSynthesis.speak(utter);
+}
+
+/* ══════════════════════════════════════
+   Settings
+══════════════════════════════════════ */
+function openSettings() {
+  const k = localStorage.getItem('sutra_openai_key');
+  if (k) document.getElementById('apiKeyInput').value = k;
+  document.getElementById('settingsModal').classList.add('show');
+}
+function closeSettings() { document.getElementById('settingsModal').classList.remove('show'); }
+function saveKey() {
+  const k = document.getElementById('apiKeyInput').value.trim();
+  if (k) { localStorage.setItem('sutra_openai_key', k); closeSettings(); if (currentPassages.length) setupAI(); }
+  else { alert('請輸入有效的 API Key。'); }
+}
+function clearKey() {
+  localStorage.removeItem('sutra_openai_key');
+  document.getElementById('apiKeyInput').value = '';
+  if (currentPassages.length) setupAI();
+  closeSettings();
+}
+
+document.getElementById('dkInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) seek();
+});
+
+/* ══════════════════════════════════════
+   全文朗誦
+══════════════════════════════════════ */
+let reciteList = [];
+let reciteIndex = 0;
+let recitePaused = false;
+let reciteActive = false;
+let reciteUtter = null;
+
+function startRecite() {
+  if (!currentSutra) return;
+  reciteStop();
+  const s = SUTRAS[currentSutra];
+  reciteList = s.fullText.map((t, i) => ({ label: i === 0 ? '序' : `第 ${i} 段`, text: t }));
+  document.getElementById('reciteBarTitle').textContent = s.reciteBarTitle;
+  reciteIndex = 0; recitePaused = false; reciteActive = true;
+  document.getElementById('reciteBar').classList.add('show');
+  document.getElementById('reciteCount').textContent = `1 / ${reciteList.length} 段`;
+  reciteNext();
+}
+
+function reciteNext() {
+  if (!reciteActive || reciteIndex >= reciteList.length) { reciteStop(); return; }
+  const item = reciteList[reciteIndex];
+  const total = reciteList.length;
+  document.getElementById('reciteChapter').textContent = item.label;
+  document.getElementById('reciteCount').textContent = `${reciteIndex + 1} / ${total} 段`;
+  document.getElementById('reciteProgressFill').style.width = ((reciteIndex + 1) / total * 100) + '%';
+  document.getElementById('reciteCurrent').textContent = item.text;
+  document.getElementById('recitePlayBtn').textContent = '⏸ 暫停';
+  const utter = new SpeechSynthesisUtterance(item.text);
+  reciteUtter = utter;
+  utter.lang = 'zh-TW';
+  utter.rate = parseFloat(document.getElementById('reciteSpeed').value);
+  utter.pitch = 0.75; utter.volume = 1;
+  const v = getMaleVoice();
+  if (v) utter.voice = v;
+  utter.onend = () => { if (!reciteActive || recitePaused) return; reciteIndex++; reciteNext(); };
+  utter.onerror = () => { if (reciteActive && !recitePaused) { reciteIndex++; reciteNext(); } };
+  speechSynthesis.speak(utter);
+}
+
+function recitePlayPause() {
+  if (!reciteActive) return;
+  if (recitePaused) {
+    recitePaused = false;
+    document.getElementById('recitePlayBtn').textContent = '⏸ 暫停';
+    reciteNext();
+  } else {
+    recitePaused = true;
+    speechSynthesis.cancel();
+    document.getElementById('recitePlayBtn').textContent = '▶ 繼續';
+  }
+}
+
+function reciteRestart() {
+  reciteIndex = 0; recitePaused = false;
+  speechSynthesis.cancel(); reciteActive = true; reciteNext();
+}
+
+function reciteStop() {
+  reciteActive = false; recitePaused = false;
+  speechSynthesis.cancel(); reciteUtter = null;
+  document.getElementById('reciteBar').classList.remove('show');
+  document.getElementById('reciteProgressFill').style.width = '0%';
+}
+
+function updateSpeed() {
+  const val = document.getElementById('reciteSpeed').value;
+  document.getElementById('reciteSpeedLabel').textContent = val + '×';
+  if (reciteActive && !recitePaused) { speechSynthesis.cancel(); reciteNext(); }
+}
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
+</script>
+</body>
+</html>

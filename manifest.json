@@ -1,0 +1,14 @@
+{
+  "name": "經典解鎖人生",
+  "short_name": "經書智慧",
+  "description": "金剛經・心經 — 以千年佛典智慧引導人生困境",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#faf8f3",
+  "theme_color": "#7b5e3a",
+  "lang": "zh-Hant",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
